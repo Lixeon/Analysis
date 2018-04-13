@@ -1,0 +1,105 @@
+﻿{% extends 'bootstrap/base.html' %}
+{% set main=main or"" %}
+{% set data=data or"" %}
+{% set contact=contact or"" %}
+{% block styles %}
+{{super()}}
+
+<link rel="stylesheet" type="text/css" href="{{ url_for( 'static',filename='css/bootstrap-theme.min.css' )}}">
+
+{% endblock %}
+
+{% block title %}
+    {% if title %}{{ title }} - {{ _('NVH Tech') }}{% else %} {{ _('NVH Tech') }}{% endif %}
+{% endblock %}
+
+{% block head %}
+{{super()}}
+    {% block favicon %}
+<link rel="shortcut icon" type="image/x-icon" href="{{ url_for( 'static',filename='images/logo/base.png' )}}">
+    {% endblock %}
+    {% block meta %}
+<meta http-equiv="X-UA-Compatible" content="chrome=1" />
+<meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html" />
+<meta name="author" content="Monius" />
+<meta name="description" content="NVH Analyzer" />
+<meta name="keywords" content="NVH,NVH Analyzer,NVH in Cars,NVH 汽车,NVH 玄学,阶次变换,玄学 " />
+<meta name="viewport" content="width=device-width, initial-scale=1">
+    {% endblock %}
+{% endblock %}
+
+
+{% block navbar %}
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false"
+                    aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand " href="{{ url_for('main.index')}}">NVH Analyzer</a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li class="{{ main }}"><a href="{{ url_for('main.index')}}">Home</a></li>
+                <li class="{{ data }}"><a href="{{ url_for('data.index')}}">Data</a></li>
+                <li class="{{ contact }}"><a href="{{ url_for('contact.index')}}">Contact</a></li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        Wiki
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ url_for('main.index')}}#qa_mean">What is NVH</a></li>
+                        <li><a href="{{ url_for('main.index')}}#qa_use">Who make it</a></li>
+                        <li><a href="{{ url_for('main.index')}}#qa_analyzer">How to measure it</a></li>
+                        <li><a href="{{ url_for('contact.index')}}#">How to get it</a></li>
+                        <li><a href="#">Donate us</a></li>
+                        <li role="separator" class="divider"></li>
+                        <li class="dropdown-header">Waiting...</li>
+                    </ul>
+                </li>
+            </ul>
+            <form class="navbar-form navbar-right">
+                <input type="text" class="form-control" placeholder="Search...">
+            </form>
+        </div>
+    </div>
+</nav>
+{% endblock %}
+
+
+
+
+
+{%- block content %}
+{{super()}}
+<main role="main">
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-info" role="alert">{{ message }}</div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
+    {% block app_content %}{% endblock %}
+    </div>
+    {%- block footer %}
+    <hr />
+    <footer class="container">
+        <p class="pull-right icon-chevron-up"><a href="#">Top</a></p>
+        <p>Copyright&copy; 2017-2018 Monius. All rights reserved &middot;<a href="#">Privacy</a> &middot;<a href="#">Terms</a></p>
+    </footer>
+
+    {%- endblock footer %}
+</main>
+
+    {%- endblock content %}
+{% block scripts %}
+{{ super() }}
+<script src="{{ url_for( 'static',filename='js/prettify.min.js' )}}"></script>
+{% endblock %}
