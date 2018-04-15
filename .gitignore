@@ -52,7 +52,7 @@ pip-delete-this-directory.txt
 htmlcov/
 .tox/
 .vs/
-.vscode
+.vscode/
 .coverage
 .coverage.*
 .cache
