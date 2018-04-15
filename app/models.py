@@ -37,12 +37,12 @@ class NgrokAPI(Resource):
         'time':None
         }
         args = self.reqparse.parse_args()
-        print
         for k, v in args.items():
             if v != None:
                 t[k] = v
         ng = Ngrok(**t)
-        db.session.add(ng)
-        db.session.commit()
+        if(t['url']):
+            db.session.add(ng)
+            db.session.commit()
         return {'message': 'Connect Complete.'}
 
