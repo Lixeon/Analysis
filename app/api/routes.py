@@ -1,12 +1,12 @@
 from flask import render_template, redirect, url_for, flash, request
 from flask_restful import Resource, reqparse, fields, marshal
-from models import Ngrok
+from app.models import Ngrok
 from sqlalchemy import desc
 from ext import api,db
 from app.api import bp
 
 
-api.add_resource(NgrokAPI, '/api/ngrok',endpoint = 'ngrok')
+
 
 
 ngrok_fields={
@@ -24,15 +24,15 @@ class NgrokAPI(Resource):
         super(TaskAPI, self).__init__()
 
     def get(self):
-        ngrok=Ngrok.query.order_by(desc(Ngrok.time))
-        print(ngrok)
-        return {'Ngrok': marshal(ngrok, ngrok_fields)}
+        ngrok=Ngrok.query.order_by(desc(Ngrok.time))[0]
+        ngrok_dict = {'url': ngrok.url,'time':ngrok.time}
+        return {'Ngrok': marshal(ngrok_dict, ngrok_fields)}
 
     def post(self):
-        
+
         t = {
         'public_url': None,
-        'time':None 
+        'time':None
         }
         args = self.reqparse.parse_args()
         for k, v in args.items():
@@ -43,7 +43,10 @@ class NgrokAPI(Resource):
         db.session.commit()
         return {'message': 'Connect Complete.'}
 
+
+api.add_resource(NgrokAPI, '/api/ngrok', endpoint='ngrok')
+
+
 @bp.route('/', methods=['GET', 'POST'])
 def  index():
     return render_template('api/index.html', title=_('Api'),Api='active')
-

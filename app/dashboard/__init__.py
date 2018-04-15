@@ -1,5 +1,5 @@
 from flask import Blueprint
 
-bp = Blueprint('dashbord', __name__)
+bp = Blueprint('dashboard', __name__)
 
-from app.dashbord import routes
+from app.dashboard import routes
