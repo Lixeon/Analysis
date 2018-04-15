@@ -3,8 +3,6 @@ from flask import Flask, request, current_app
 from ext import db,migrate,bootstrap,babel,api,Config,images
 
 
-
-
 def create_app(config_class=Config):
     app = Flask(__name__)
     # app.config['SECRET_KEY']='dai3hoahudhiuahduiah'
@@ -38,9 +36,6 @@ def create_app(config_class=Config):
 
     from app.dashboard import bp as dashboard_bp
     app.register_blueprint(dashboard_bp)
-
-
-
 
     return app
 

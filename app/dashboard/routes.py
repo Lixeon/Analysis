@@ -6,4 +6,3 @@ from app.dashboard import bp
 @bp.route('/dashboard', methods=['GET', 'POST'])
 def  index():
     return render_template('dashboard/index.html', title=_('dashboard'),dashboard='active')
-

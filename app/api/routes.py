@@ -1,5 +1,6 @@
 from flask import render_template, redirect, url_for, flash, request
 from flask_restful import Resource, reqparse, fields, marshal
+from flask_babel import  _, lazy_gettext as _l
 from app.models import Ngrok
 from sqlalchemy import desc
 from ext import api,db
@@ -7,14 +8,10 @@ from app.api import bp
 
 
 
-
-
 ngrok_fields={
     "url":fields.String,
     'time':fields.String,
 }
-
-
 class NgrokAPI(Resource):
 
     def __init__(self):
@@ -31,7 +28,7 @@ class NgrokAPI(Resource):
     def post(self):
 
         t = {
-        'public_url': None,
+        'url': None,
         'time':None
         }
         args = self.reqparse.parse_args()
@@ -45,8 +42,6 @@ class NgrokAPI(Resource):
 
 
 api.add_resource(NgrokAPI, '/api/ngrok', endpoint='ngrok')
-
-
 @bp.route('/', methods=['GET', 'POST'])
 def  index():
     return render_template('api/index.html', title=_('Api'),Api='active')
