@@ -37,7 +37,11 @@ class NgrokAPI(Resource):
         'time':None
         }
         args = self.reqparse.parse_args()
+<<<<<<< HEAD
         print
+=======
+        print(args)
+>>>>>>> 0a72fef78fa67bc2b9586b3c4dfe7060468fde7b
         for k, v in args.items():
             if v != None:
                 t[k] = v
