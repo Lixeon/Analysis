@@ -13,12 +13,11 @@ ngrok_fields={
     'time':fields.String,
 }
 class NgrokAPI(Resource):
-
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
         self.reqparse.add_argument('url', type=str, location='json')
         self.reqparse.add_argument('time', type=str, location='json')
-        super(TaskAPI, self).__init__()
+        super(NgrokAPI, self).__init__()
 
     def get(self):
         ngrok=Ngrok.query.order_by(desc(Ngrok.time))[0]
