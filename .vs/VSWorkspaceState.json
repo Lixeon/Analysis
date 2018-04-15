@@ -1,14 +1,17 @@
 {
   "ExpandedNodes": [
     "",
+    "\\app",
+    "\\app\\api",
     "\\app\\contact",
-    "\\app\\main",
-    "\\app\\static",
-    "\\app\\static\\css",
-    "\\app\\static\\js",
+    "\\app\\dashboard",
+    "\\app\\data",
     "\\app\\templates",
-    "\\app\\templates\\main"
+    "\\app\\templates\\api",
+    "\\app\\templates\\contact",
+    "\\app\\templates\\dashboard",
+    "\\app\\templates\\data"
   ],
-  "SelectedNode": "\\run.py",
+  "SelectedNode": "\\app\\dashboard\\__init__.py",
   "PreviewInSolutionExplorer": false
 }
