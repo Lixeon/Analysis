@@ -28,9 +28,10 @@
 {% block scripts %}
 <script>
     function MachineTest(sourceElem, destElem) {
-        $(destElem).html('<img src="{{ url_for('static', filename='images/loading.gif') }}">');
-        $.post({{ Target }}, {
-            machine:shake
+        $(destElem).html('<img src="{{ url_for('static', filename='images/loading/loading.gif') }}">');
+        $.post("{{ url_for('api.csrf') }}", {
+            "url":"{{ Target }}",
+            "machine":"shake"
         }).done(function (response) {
             $(destElem).text(response['Status'])
         }).fail(function () {

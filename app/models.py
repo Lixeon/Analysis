@@ -36,7 +36,6 @@ class NgrokAPI(Resource):
         return {'Ngrok': marshal(Ngrok._asdict(ngrok), ngrok_fields)}
 
     def post(self):
-
         t = {
         'url': None,
         'time':None
