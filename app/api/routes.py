@@ -3,6 +3,7 @@ from flask_babel import  _, lazy_gettext as _l
 from app.models import Ngrok
 from app.api import bp
 
+import json
 import requests
 
 @bp.route('/', methods=['GET', 'POST'])
@@ -14,14 +15,18 @@ def index():
 @bp.route('/csrf', methods=['POST'])
 def csrf():
     if request.method == 'POST':
-        target = request.form['url']+'/'+request.form['machine']
-        data = jsonify(request.form)
+        #target = request.form['url']+'/'+request.form['machine']
+        target = 'http://feb34695.ngrok.io' +'/'+request.form['machine']
+        data = { k:v for k,v in request.form.to_dict().items() }
+        data = jsonify(data)
+
         print(target)
         print(data)
         r= requests.post(target,data=data)
-        if(r.status_code == requests.codes.ok):
-            return r.json()
-        else:
-            abort(r.status_code)
+        if r.status_code != 200:
+            return _('Error: the translation service failed.')
+        xx =json.loads(r.content.decode('utf-8-sig'))
+        print(xx)
+        return jsonify({'xx':xx})
     else:
         abort(400)
