@@ -17,10 +17,12 @@ class Ngrok(db.Model):
 
     def __repr__(self):
         return '<Server {}>'.format(self.url)
-    def __dict__(self):
-
-
-
+    @staticmethod
+    def _asdict(row):
+        d = {}
+        for column in row.__table__.columns:
+            d[column.name] = str(getattr(row, column.name))
+        return d
 
 class NgrokAPI(Resource):
     def __init__(self):
@@ -48,10 +50,5 @@ class NgrokAPI(Resource):
             db.session.add(ng)
             db.session.commit()
         return {'message': 'Connect Complete.'}
-    @staticmethod
-    def _asdict(row):
-        d = {}
-        for column in row.__table__.columns:
-            d[column.name] = str(getattr(row, column.name))
-        return d
+    
 
