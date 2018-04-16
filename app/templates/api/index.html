@@ -7,31 +7,33 @@
 
 {% block app_content %}
 {% if api_list %}
-<table>
-    <thead>
-        {% if len(api_list[0].keys()) %}
-        <tr>{% for key in api_list[0].keys() %}<th>{{ key }}</th>{% endfor %}</tr>
-        {% endif %}
-    </thead>
-    <tbody>
-        {% for api in api_list %}
-        <tr>
-            {% for k,v in api.iterms() %}
-            <td>{{ v }}</td>
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            {% if api_list[0]|length > 1 %}
+            <tr>{% for key in api_list[0].keys() %}<th>{{ key }}</th>{% endfor %}</tr>
+            {% endif %}
+        </thead>
+        <tbody>
+            {% for api in api_list %}
+            <tr>
+                {% for k,v in api.items() %}
+                <td>{{ v }}</td>
+                {% endfor %}
+            </tr>
             {% endfor %}
-        </tr>
-        {% endfor %}
-    </tbody>
-    {% endif %}
-</table>
+        </tbody>
+        {% endif %}
+    </table>
+</div>
 
-{% endblock %}
-
+    {% endblock %}
 
 
-{% block scripts %}
 
-{{ super() }}
+    {% block scripts %}
 
-{% endblock %}
+    {{ super() }}
+
+    {% endblock %}
 
