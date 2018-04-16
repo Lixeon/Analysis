@@ -1,4 +1,4 @@
-from flask import render_template, redirect, url_for, flash, request,abort
+from flask import render_template, redirect, url_for, flash, request,abort,jsonify
 from flask_babel import  _, lazy_gettext as _l
 from app.models import Ngrok
 from app.api import bp
@@ -15,7 +15,7 @@ def index():
 def csrf():
     if request.method == 'POST':
         target = request.form['url']+'/'+request.form['machine']
-        data = request.form
+        data = jsonify(request.form)
         print(target)
         print(data)
         r= requests.post(target,data=data)
