@@ -14,8 +14,7 @@ def index():
 @bp.route('/csrf', methods=['POST'])
 def csrf():
     if request.method == 'POST':
-        #target = request.form['url']
-        target = 'https://0eb0a388.ngrok.io'
+        target = request.form['url']+'/'+request.form['machine']
         data = request.form
         print(target)
         print(data)
