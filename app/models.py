@@ -5,18 +5,22 @@ from passlib.apps import custom_app_context as pwd_context
 from sqlalchemy import desc
 from ext import db
 
+ngrok_fields={
+    "url":fields.String,
+    'time':fields.String,
+}
+
 class Ngrok(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     url = db.Column(db.String(128), index=True, unique=True)
     time = db.Column(db.String(120), index=True, unique=True)
 
     def __repr__(self):
-        return '<Server {}>'.format(self.url)   
+        return '<Server {}>'.format(self.url)
+    def __dict__(self):
 
-ngrok_fields={
-    "url":fields.String,
-    'time':fields.String,
-}
+
+
 
 class NgrokAPI(Resource):
     def __init__(self):
@@ -27,8 +31,7 @@ class NgrokAPI(Resource):
 
     def get(self):
         ngrok=Ngrok.query.order_by(desc(Ngrok.time))[0]
-        ngrok_dict = {'url': ngrok.url,'time':ngrok.time}
-        return {'Ngrok': marshal(ngrok_dict, ngrok_fields)}
+        return {'Ngrok': marshal(Ngrok._asdict(ngrok), ngrok_fields)}
 
     def post(self):
 
@@ -45,4 +48,10 @@ class NgrokAPI(Resource):
             db.session.add(ng)
             db.session.commit()
         return {'message': 'Connect Complete.'}
+    @staticmethod
+    def _asdict(row):
+        d = {}
+        for column in row.__table__.columns:
+            d[column.name] = str(getattr(row, column.name))
+        return d
 
