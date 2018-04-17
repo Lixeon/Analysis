@@ -32,6 +32,6 @@ def csrf():
             return _('Error: the translation service failed.')
         # xx =json.loads(r.content.decode('utf-8-sig'))
         # print(xx)
-        return jsonify(r.content)
+        return jsonify(r.json())
     else:
         abort(400)
