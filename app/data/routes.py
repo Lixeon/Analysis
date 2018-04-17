@@ -1,9 +1,9 @@
 from flask import render_template, redirect, url_for, flash, request
 from flask_login import  login_user, logout_user, current_user
 from flask_babel import  _, lazy_gettext as _l
-from sqlalchemy import desc
 from app.models import Ngrok
 from app.data import bp
+from ext import desc
 
 
 @bp.route('/data', methods=['GET', 'POST'])

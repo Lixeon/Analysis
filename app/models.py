@@ -2,8 +2,7 @@
 from flask import abort,url_for
 from flask_restful import Resource, reqparse, fields, marshal
 from passlib.apps import custom_app_context as pwd_context
-from sqlalchemy import desc
-from ext import db
+from ext import db, desc
 
 ngrok_fields={
     "url":fields.String,
