@@ -1,0 +1,39 @@
+{% extends "form.html" %}
+
+{% block styles %}
+{{super()}}
+<link rel="stylesheet" type="text/css" href="{{ url_for( 'static',filename='css/data.css' )}}">
+{% endblock %}
+
+{% block app_content %}
+{% if api_list %}
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            {% if api_list[0]|length > 1 %}
+            <tr>{% for key in api_list[0].keys() %}<th>{{ key }}</th>{% endfor %}</tr>
+            {% endif %}
+        </thead>
+        <tbody>
+            {% for api in api_list %}
+            <tr>
+                {% for k,v in api.items() %}
+                <td>{{ v }}</td>
+                {% endfor %}
+            </tr>
+            {% endfor %}
+        </tbody>
+        {% endif %}
+    </table>
+</div>
+
+    {% endblock %}
+
+
+
+    {% block scripts %}
+
+    {{ super() }}
+
+    {% endblock %}
+

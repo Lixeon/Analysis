@@ -1,4 +1,4 @@
-{% extends 'base.html' %}
+{% extends "form.html" %}
 
 {% block styles %}
 {{super()}}
@@ -6,65 +6,19 @@
 {% endblock %}
 
 {% block app_content %}
-<div class="row">
-    <div class="col-sm-3 col-md-2 sidebar">
-        <ul class="nav nav-sidebar">
-            <li class="active"><a href="#">Overview <span class="sr-only">(current)</span></a></li>
-        </ul>
-        <ul class="nav nav-sidebar">
-            <li><a href="#qa_wave">Wave Display</a></li>
-            <li><a href="#qa_order">Order Tracking</a></li>
-            <li><a href="#qa_fft">FFT Analysis</a></li>
-            <li><a href="#qa_ana">Order Analysis</a></li>
-        </ul>
-        <ul class="nav nav-sidebar">
-            <li><a href="#qa_data">Data</a></li>
-            <li><a href="#qa_reports">Reports</a></li>
-            <li><a href="#qa_export">Export</a></li>
-        </ul>
-    </div>
-    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-        <h1 class="page-header">Data Analysis</h1>
-        <div class="row placeholders">
-            <div id="qa_wave" class="col-md-12">
-                <div id="svg1" width="1920" height="1080"> </div>
-                <h4 class="text-capitalize">wave display</h4>
-                <span class="text-muted">v ~ ms</span>
-            </div>
-            <div id="qa_order" class="col-md-12">
-                <div id="svg2" width="1920" height="1080"> </div>
-                <h4 class="text-capitalize">order tracking</h4>
-                <span class="text-muted">DB ~ rpm</span>
-            </div>
-            <div id="qa_fft" class="col-md-12">
-                <div id="svg3" width="1920" height="1080"> </div>
-                <h4 class="text-capitalize">FFT analysis</h4>
-                <span class="text-muted">DB ~ Order</span>
 
-            </div>
-            <div id="qa_ana" class="col-md-12">
-                <div id="svg4" width="1920" height="1080"> </div>
-                <h4 class="text-capitalize">order analysis</h4>
-                <span class="text-muted">DB ~ order ~ rpm</span>
-            </div>
+<div class="panel-footer">
 
-        </div>
-
-        <div id="qa_data" class="table-responsive">
-            <h2 class="sub-header text-capitalize">Data capture</h2>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th class="text-capitalize">sample times &middot;<span class="text-muted small"> ms</span></th>
-                        <th class="text-capitalize">decibels &middot;<span class="text-muted small"> db</th>
-                        <th class="text-capitalize">rpm &middot;<span class="text-muted small"> ps/r/m</th>
-                        <th class="text-capitalize">order &middot;<span class="text-muted small"> hz</th></th>
-                    </tr>
-                </thead>
-            </table>
-        </div>
-    </div>
+    <input id="Machine{{ res }}" type="text" class="form-control" aria-label="...">
+    <br>
+    <div id="Activaty{{ res }}" class="well well-sm">Machine Status</div>
+    <br>
+    <span>
+        <a class="btn btn-primary" role="button" href="javascript:MachineTest(
+                        '#Machine{{ res }}',
+                        '#Activaty{{ res }}',
+                        );">{{ _('Run') }}</a>
+    </span>
 </div>
 
 {% endblock %}
@@ -72,8 +26,20 @@
 
 
 {% block scripts %}
+<script>
+    function MachineTest(sourceElem, destElem) {
+        $(destElem).html('<img src="{{ url_for('static', filename='images/loading/loading.gif') }}">');
+        $.post("{{ url_for('api.csrf') }}", {
+            "url":"{{ Target }}",
+            "machine":"shake"
+        }).done(function (response) {
+            $(destElem).text(response['Status'])
+        }).fail(function () {
+            $(destElem).text("{{ _('Error: Could not contact server.') }}");
+        });
+    }
+</script>
 {{ super() }}
-<script src="{{ url_for( 'static',filename='js/plotly-latest.min.js' )}}"></script>
-<script src="{{ url_for( 'static',filename='js/data.js' )}}"></script>
+
 {% endblock %}
 
