@@ -14,19 +14,21 @@ def index():
 
 @bp.route('/csrf', methods=['POST'])
 def csrf():
+    headers = {'Content-Type': 'application/json'}
     if request.method == 'POST':
-        #target = request.form['url']+'/'+request.form['machine']
-        target = 'http://feb34695.ngrok.io' +'/'+request.form['machine']
+        target = request.form['url']+'/'+request.form['machine']
+        # target = 'http://feb34695.ngrok.io' +'/'+request.form['machine']
         data = { k:v for k,v in request.form.to_dict().items() }
-        data = jsonify(data)
+        print(type(data))
 
         print(target)
         print(data)
-        r= requests.post(target,data=data)
+        r= requests.post(target,data=data,headers=headers)
+        print(r.content)
         if r.status_code != 200:
             return _('Error: the translation service failed.')
-        xx =json.loads(r.content.decode('utf-8-sig'))
-        print(xx)
-        return jsonify({'xx':xx})
+        # xx =json.loads(r.content.decode('utf-8-sig'))
+        # print(xx)
+        return jsonify(data)
     else:
         abort(400)
