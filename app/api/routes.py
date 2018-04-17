@@ -16,17 +16,19 @@ def index():
 def csrf():
     headers = {'Content-Type': 'application/json'}
     if request.method == 'POST':
+        print(request.get_json(force=True))
         target = request.form['url']+'/'+request.form['machine']
+        print(target)
         # target = 'http://feb34695.ngrok.io' +'/'+request.form['machine']
         data = { k:v for k,v in request.form.to_dict().items() }
         print(type(data))
-
-        print(target)
         print(data)
+
         r= requests.post(target,data=json.dumps(data),headers=headers)
-        print(r.content)
-        print(r.json)
-        if r.status_code != 200:
+        print("content", r.content, type(r.content))
+        print("json", r.json, type(r.json))
+
+        if not r.ok:
             return _('Error: the translation service failed.')
         # xx =json.loads(r.content.decode('utf-8-sig'))
         # print(xx)

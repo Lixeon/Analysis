@@ -45,7 +45,7 @@ class NgrokAPI(Resource):
             if v != None:
                 t[k] = v
         ng = Ngrok(**t)
-        if(t['url']):
+        if(t['url'] and Ngrok.query.filter_by(url=t['url']).first() is None):
             db.session.add(ng)
             db.session.commit()
         return {'message': 'Connect Complete.'}
