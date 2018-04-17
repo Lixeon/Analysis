@@ -23,7 +23,7 @@ def csrf():
 
         print(target)
         print(data)
-        r= requests.post(target,data=data,headers=headers)
+        r= requests.post(target,data=data)
         print(r.content)
         if r.status_code != 200:
             return _('Error: the translation service failed.')
