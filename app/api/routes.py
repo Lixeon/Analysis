@@ -23,7 +23,7 @@ def csrf():
 
         print(target)
         print(data)
-        r= requests.post(target,data=josn.dumps(data),headers=headers)
+        r= requests.post(target,data=json.dumps(data),headers=headers)
         print(r.content)
         print(r.json)
         if r.status_code != 200:
