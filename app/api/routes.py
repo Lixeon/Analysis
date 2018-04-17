@@ -23,8 +23,9 @@ def csrf():
 
         print(target)
         print(data)
-        r= requests.post(target,data=data)
+        r= requests.post(target,data=josn.dumps(data),headers=headers)
         print(r.content)
+        print(r.json)
         if r.status_code != 200:
             return _('Error: the translation service failed.')
         # xx =json.loads(r.content.decode('utf-8-sig'))
