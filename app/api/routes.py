@@ -16,7 +16,7 @@ def index():
 def csrf():
     headers = {'Content-Type': 'application/json'}
     if request.method == 'POST':
-        print(request.get_json(force=True))
+        # print(request.get_json(force=True))
         target = request.form['url']+'/'+request.form['machine']
         print(target)
         # target = 'http://feb34695.ngrok.io' +'/'+request.form['machine']
