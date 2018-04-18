@@ -16,19 +16,27 @@
         </thead>
         <tbody>
             {% for api in api_list %}
-            <tr>
-                {% for k,v in api.items() %}
-                <td>{{ v }}</td>
-                {% endfor %}
-            </tr>
+                <tr>
+                    {% for k,v in api.items() %}
+                        <td>
+                            {% if k=='status' %}
+                                    <span id="sp-{{ api.id }}" class="badge badge-{{ v }}">{{ v }}</span>
+                            {% elif k=='control' %}
+                                    <button type="button"  id="bt-{{ api.id }}" class="btn btn-info btn-rounded">Run</button>
+                            {% elif k=='info' %}
+                                    <span id="if-{{ api.id }}" class="label label-default">{{ v }}</span>               
+                            {% else %}
+                                {{ v }}
+                            {% endif %}
+                        </td>
+                    {% endfor %}
+                </tr>
             {% endfor %}
         </tbody>
-        {% endif %}
     </table>
 </div>
 
-    {% endblock %}
-
+{% endblock %}
 
 
     {% block scripts %}

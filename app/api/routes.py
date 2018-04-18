@@ -10,6 +10,18 @@ import requests
 def index():
     ngroks = Ngrok.query.all()
     api_list=list(map(lambda r: {c.name: str(getattr(r, c.name)) for c in r.__table__.columns},ngroks))
+    for i in api_list:
+        if 'status' not in i.keys():
+            i['status']= 0
+        if 'info' not in i.keys():
+            i['info'] = 'unkown'
+        if 'control' not in i.keys():
+            i['control'] = 'button'
+        r= requests.get(i['url'])
+        if r.ok:
+            i['status']=1
+    if request.method == 'POST':
+        return jsonify(api_list[int(request.form['id'])+1])
     return render_template('api/index.html', title=_('Api'),Api='active',api_list=api_list)
 
 @bp.route('/csrf', methods=['POST'])
