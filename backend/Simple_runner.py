@@ -1,6 +1,7 @@
 
 import os
 import json
+import socket
 import logging
 import subprocess
 import requests as r
@@ -40,11 +41,12 @@ remote = 'https://nvh.monius.top/api/ngrok'
 headers = {'Content-Type': 'application/json'}
 origin_requset = r.get(origin)
 if(origin_requset.status_code != r.codes.bad_gateway):
-    url = str(origin_requset.json()['tunnels'][0]['public_url'])
+    loc =(([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")] or [[(s.connect(("8.8.8.8", 53)),s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) + ["no IP found"])[0]
+    pub = str(origin_requset.json()['tunnels'][0]['public_url'])
     print("----------Ngrok Location:---------")
-    print("           {}          ".format(url))
+    print("   loc:{}     pub:{}  ".format(loc,pub))
     print("-----------------------------")
-    data = {"url":url,"time":time}
+    data = {"loc": loc, "pub": pub,"time": time}
     logging.info(time,data)
     remote_requset = r.post(remote,data=data,headers=headers)
     if(remote_requset.status_code == r.codes.ok):
@@ -56,3 +58,21 @@ if(origin_requset.status_code != r.codes.bad_gateway):
         logging.error(remote_requset.raise_for_status())
 else:
     logging.error(origin_requset.raise_for_status())
+
+[program:server]
+environment = PYTHONHOME = '/usr/bin/python', PYTHONPATH = '/usr/bin/'
+directory = /home/pi/backend
+command = python Simple_runner.py
+autostart = true
+autorestart = true
+
+startsecs = 5
+startretries = 3
+user = ubuntu
+redirect_stderr = true
+stdout_logfile_maxbytes = 20MB
+stdout_logfile_backups = 2
+
+stdout_logfile = /data/logs/stdout.log
+stderr_logfile = /data/logs/stderro.log
+stopsignal = INT

@@ -17,7 +17,7 @@ def index():
             i['info'] = 'unkown'
         if 'control' not in i.keys():
             i['control'] = 'button'
-        r= requests.get(i['url'])
+        r= requests.get(i['pub'])
         if r.ok:
             i['status']=1
     if request.method == 'POST':
@@ -29,7 +29,7 @@ def csrf():
     headers = {'Content-Type': 'application/json'}
     if request.method == 'POST':
         # print(request.get_json(force=True))
-        target = request.form['url']+'/'+request.form['machine']
+        target = request.form['pub']+'/'+request.form['machine']
         print(target)
         # target = 'http://feb34695.ngrok.io' +'/'+request.form['machine']
         data = { k:v for k,v in request.form.to_dict().items() }

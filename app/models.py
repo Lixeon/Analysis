@@ -5,17 +5,19 @@ from passlib.apps import custom_app_context as pwd_context
 from ext import db, desc
 
 ngrok_fields={
-    "url":fields.String,
+    "pub":fields.String,
+    "loc": fields.String,
     'time':fields.String,
 }
 
 class Ngrok(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    url = db.Column(db.String(128), index=True, unique=True)
+    pub = db.Column(db.String(128), index=True, unique=True)
+    loc = db.Column(db.String(128))
     time = db.Column(db.String(120), index=True, unique=True)
 
     def __repr__(self):
-        return '<Server {}>'.format(self.url)
+        return '<Server {}>'.format(self.pub)
     @staticmethod
     def _asdict(row):
         d = {}
@@ -26,7 +28,8 @@ class Ngrok(db.Model):
 class NgrokAPI(Resource):
     def __init__(self):
         self.reqparse = reqparse.RequestParser()
-        self.reqparse.add_argument('url', type=str, location='json')
+        self.reqparse.add_argument('pub', type=str, location='json')
+        self.reqparse.add_argument('loc', type=str, location='json')
         self.reqparse.add_argument('time', type=str, location='json')
         super(NgrokAPI, self).__init__()
 
@@ -36,7 +39,8 @@ class NgrokAPI(Resource):
 
     def post(self):
         t = {
-        'url': None,
+        'pub': None,
+        'loc': None,
         'time':None
         }
         args = self.reqparse.parse_args()
@@ -44,7 +48,7 @@ class NgrokAPI(Resource):
             if v != None:
                 t[k] = v
         ng = Ngrok(**t)
-        if(t['url'] and Ngrok.query.filter_by(url=t['url']).first() is None):
+        if(t['pub'] and Ngrok.query.filter_by(pub=t['pub']).first() is None):
             db.session.add(ng)
             db.session.commit()
         return {'message': 'Connect Complete.'}

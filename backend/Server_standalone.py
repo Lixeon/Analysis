@@ -43,7 +43,7 @@ def shake():
     dstatus=dict()
     print('shake-----Get-----Data')
     if request.method == 'POST' and request.form['machine']=='shake':
-        global s_t;
+        global s_t
         s_t+=1
         #print(s_t)
         G_shake(s_t%2)
@@ -58,9 +58,14 @@ def shake():
 @app.route('/light',methods=['POST','GET'])
 def light():
     dstatus=dict()
-    G_light();
-    dstatus['Status']='Machine On'
-    return jsonify(dstatus)
+    print('shake-----Get-----Data')
+    if request.method == 'POST' and request.form['machine']=='shake':
+        data = {k: v for k, v in request.form.to_dict().items()}
+        G_light(1, **data)
+        dstatus['Status']='Machine On'
+        return jsonify(dstatus)
+    else:
+        abort(400)
 
 if __name__ == '__main__':
     HOST = environ.get('SERVER_HOST', 'localhost')
