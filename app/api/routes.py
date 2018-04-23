@@ -31,10 +31,11 @@ def index():
         if 'control' not in i.keys():
             i['control'] = 'button'
     pprint.pprint(api_list)
-    cache = rs_get([i['pub'] for i in api_list], [i['id']
-                                                      for i in api_list])
-    for api in api_list:
-        api['status'] = cache[api['id']]
+    if request.method == 'GET':
+        cache = rs_get([i['pub'] for i in api_list], [i['id']
+                                                        for i in api_list])
+        for api in api_list:
+            api['status'] = cache[api['id']]
     if request.method == 'POST':
         api = list(filter(lambda i: i['id'] == request.form['id'], api_list))[0]
         target = api['pub']+'/'+request.form['machine']
