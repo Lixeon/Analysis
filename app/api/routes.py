@@ -32,10 +32,10 @@ def index():
     for api in api_list:
         api['status'] = cache[api['id']]
     if request.method == 'POST':
-        target = request.form['pub']+'/'+request.form['machine']
+        api = filter(lambda i: i.id == request.form['id'], api_list)[0]
+        target = api['pub']+'/'+request.form['machine']
         data = {k: v for k, v in request.form.to_dict().items()}
         rs = rs_ask([target], data)[0]
-        api = filter(lambda i: i.id == request.form['id'], api_list)[0]
         if rs.status_code==200:
             api['status'] = rs.status_code
             api['info'] = rs.json()['info']
