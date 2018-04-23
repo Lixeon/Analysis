@@ -10,14 +10,14 @@ import pprint
 
 
 def rs_get(urls,ids):
-    rs = (grequests.get(u, timeout=3) for u in urls)
+    rs = (grequests.get(u, timeout=1) for u in urls)
     print(urls,ids)
     temp = grequests.map(rs)
     print(temp)
-    return dict(zip(ids,map(lambda x:x.status_code,temp)))
+    return dict(zip(ids,map(lambda x:x.status_code if x else 404,temp)))
 
 def rs_post(urls,data):
-    rs = (grequests.post(u, data=data,timeout=5) for u in urls)
+    rs = (grequests.post(u, data=data,timeout=3) for u in urls)
     return grequests.map(rs)
 @bp.route('/', methods=['GET', 'POST'])
 def index():
