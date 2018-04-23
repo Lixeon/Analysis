@@ -29,7 +29,7 @@
 
         var $p = $src.parent()
         var $cp = $p.children();
-        $src.html('<img src="{{ url_for('static', filename='images/loading/loading.gif') }}">');
+        $src.html('<img src="{{ url_for('static', filename='images/loading.gif') }}">');
         $.post("{{ url_for('api.index') }}", {
             "id": id,
             "machine": "shake"
