@@ -6,7 +6,7 @@ from app.api import bp
 import json
 import requests
 import grequests
-
+import pprint
 
 
 def rs_ask_ids(urls,ids):
@@ -27,6 +27,7 @@ def index():
             i['info'] = 'unkown'
         if 'control' not in i.keys():
             i['control'] = 'button'
+    pprint.pprint(api_list)
     cache = rs_ask_ids([i['pub'] for i in api_list], [i['id']
                                                       for i in api_list])
     for api in api_list:
