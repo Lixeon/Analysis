@@ -9,9 +9,13 @@ import grequests
 
 
 
-def rs_ask(urls,ids):
+def rs_ask_ids(urls,ids):
     rs = (grequests.get(u, timeout=3) for u in urls)
     return dict(zip(ids,map(lambda x:x.status_code,grequests.map(rs))))
+
+def rs_ask(urls,data):
+    rs = (grequests.get(u, data=data,timeout=5) for u in urls)
+    return grequests.map(rs)
 @bp.route('/', methods=['GET', 'POST'])
 def index():
     ngroks = Ngrok.query.all()
@@ -23,16 +27,25 @@ def index():
             i['info'] = 'unkown'
         if 'control' not in i.keys():
             i['control'] = 'button'
-    cache = rs_ask([i['pub'] for i in api_list], [i['id'] for i in api_list])
+    cache = rs_ask_ids([i['pub'] for i in api_list], [i['id']
+                                                      for i in api_list])
     for api in api_list:
         api['status'] = cache[api['id']]
     if request.method == 'POST':
-        return jsonify(api_list[int(request.form['id'])+1])
+        target = request.form['pub']+'/'+request.form['machine']
+        data = {k: v for k, v in request.form.to_dict().items()}
+        rs = rs_ask([target], data)[0]
+        api = filter(lambda i: i.id == request.form['id'], api_list)[0]
+        if rs.status_code==200:
+            api['status'] = rs.status_code
+            api['info'] = rs.json()['info']
+            return jsonify(api)
+        api['info']='error'
+        return jsonify(api)
     return render_template('api/index.html', title=_('Api'),Api='active',api_list=api_list)
 
 @bp.route('/csrf', methods=['POST'])
 def csrf():
-    headers = {'Content-Type': 'application/json'}
     if request.method == 'POST':
         # print(request.get_json(force=True))
         target = request.form['pub']+'/'+request.form['machine']

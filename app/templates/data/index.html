@@ -9,22 +9,11 @@
 
 <div class="panel-footer">
 
-    <input id="Machine{{ res }}" type="text" class="form-control" aria-label="...">
-    <br>
-    <div id="Activaty{{ res }}" class="well well-sm">Machine Status</div>
-    <br>
-    <span>
-        <a class="btn btn-primary" role="button" href="javascript:MachineTest(
-                        '#Machine{{ res }}',
-                        '#Activaty{{ res }}',
-                        );">{{ _('Run') }}</a>
-    </span>
+    <input id="Machine{{ res }}" type="text" class="form-control" aria-label="..."><br>
+    <div id="Activaty{{ res }}" class="well well-sm">Machine Status</div><br>
+    <span><a class="btn btn-primary" role="button" href="javascript:MachineTest('#Machine{{ res }}','#Activaty{{ res }}',);">{{ _('Run') }}</a></span>
 </div>
-
 {% endblock %}
-
-
-
 {% block scripts %}
 <script>
     function MachineTest(sourceElem, destElem) {

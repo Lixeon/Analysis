@@ -48,9 +48,9 @@ def shake():
         #print(s_t)
         G_shake(s_t%2)
         if(s_t%2):
-            dstatus['Status']='Machine On'
+            dstatus['info']='Machine On'
         else:
-            dstatus['Status']='Machine Off'
+            dstatus['info'] = 'Machine Off'
         return jsonify(dstatus)
     else:
         abort(400)
@@ -59,10 +59,10 @@ def shake():
 def light():
     dstatus=dict()
     print('shake-----Get-----Data')
-    if request.method == 'POST' and request.form['machine']=='shake':
+    if request.method == 'POST' and request.form['machine']=='light':
         data = {k: v for k, v in request.form.to_dict().items()}
         G_light(1, **data)
-        dstatus['Status']='Machine On'
+        dstatus['info'] = 'Machine On'
         return jsonify(dstatus)
     else:
         abort(400)
