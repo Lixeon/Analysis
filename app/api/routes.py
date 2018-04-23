@@ -32,7 +32,8 @@ def index():
     for api in api_list:
         api['status'] = cache[api['id']]
     if request.method == 'POST':
-        api = filter(lambda i: i.id == request.form['id'], api_list)[0]
+        api = list(filter(lambda i: i['id'] == request.form['id'], api_list))[0]
+        print(type(request.form['id']))
         target = api['pub']+'/'+request.form['machine']
         print(target)
         data = {k: v for k, v in request.form.to_dict().items()}
@@ -53,7 +54,8 @@ def csrf():
         api_list = list(map(lambda r: {c.name: str(
             getattr(r, c.name)) for c in r.__table__.columns}, ngroks))
         # print(request.get_json(force=True))
-        api = filter(lambda i: i.id == request.form['id'], api_list)[0]
+        api = list(filter(lambda i: i['id'] ==
+                          request.form['id'], api_list))[0]
         target = api['pub']+'/'+request.form['machine']
         print(target)
         # target = 'http://feb34695.ngrok.io' +'/'+request.form['machine']
