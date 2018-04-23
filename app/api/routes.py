@@ -5,6 +5,8 @@ from app.api import bp
 
 import json
 import requests
+import grequests
+
 
 
 def rs_ask(urls,ids):
