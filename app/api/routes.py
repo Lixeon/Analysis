@@ -23,9 +23,9 @@ def index():
             i['info'] = 'unkown'
         if 'control' not in i.keys():
             i['control'] = 'button'
-    cathe = rs_ask([i['pub'] for i in api_list], [i['id'] for i in api_list])
+    cache = rs_ask([i['pub'] for i in api_list], [i['id'] for i in api_list])
     for api in api_list:
-        api['status'] == cathe[api['id']]
+        api['status'] = cache[api['id']]
     if request.method == 'POST':
         return jsonify(api_list[int(request.form['id'])+1])
     return render_template('api/index.html', title=_('Api'),Api='active',api_list=api_list)
