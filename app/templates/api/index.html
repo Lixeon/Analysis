@@ -27,23 +27,26 @@
         var $st = $('#st-'+id);
         var $if = $('#if-'+id);
 
-        var $p = $src.parent()
+        var $p = $if.parent()
         var $cp = $p.children()[0].outerHTML;
-        $p.html('<img src="{{ url_for('static', filename='images/loading.gif') }}">');
+        $p.html('<img src="{{ url_for('static', filename='images/loading.svg') }}">');
         $.post("{{ url_for('api.index') }}", {
             "id": id,
             "machine": "shake"
         }).done(function (response) {
+            $p.children().remove();
+            $p.append($cp);
+            var $if = $('#if-' + id);
             $st.text(response['status']);
             $if.text(response['info']);
-            $p.children().remove();
-            $p.append($cp);
+            
             
         }).fail(function () {
-            $st.text('Close');
-            $if.text('Error');
             $p.children().remove();
             $p.append($cp);
+            var $if = $('#if-' + id);
+            $st.text('Close');
+            $if.text('Error');
         });
     }
     $(function () {

@@ -9,12 +9,15 @@ import grequests
 import pprint
 
 
-def rs_ask_ids(urls,ids):
+def rs_get(urls,ids):
     rs = (grequests.get(u, timeout=3) for u in urls)
-    return dict(zip(ids,map(lambda x:x.status_code,grequests.map(rs))))
+    print(urls,ids)
+    temp = grequests.map(rs)
+    print(temp)
+    return dict(zip(ids,map(lambda x:x.status_code,temp)))
 
-def rs_ask(urls,data):
-    rs = (grequests.get(u, data=data,timeout=5) for u in urls)
+def rs_post(urls,data):
+    rs = (grequests.post(u, data=data,timeout=5) for u in urls)
     return grequests.map(rs)
 @bp.route('/', methods=['GET', 'POST'])
 def index():
@@ -28,18 +31,16 @@ def index():
         if 'control' not in i.keys():
             i['control'] = 'button'
     pprint.pprint(api_list)
-    cache = rs_ask_ids([i['pub'] for i in api_list], [i['id']
+    cache = rs_get([i['pub'] for i in api_list], [i['id']
                                                       for i in api_list])
     for api in api_list:
         api['status'] = cache[api['id']]
     if request.method == 'POST':
         api = list(filter(lambda i: i['id'] == request.form['id'], api_list))[0]
-        print(type(request.form['id']))
         target = api['pub']+'/'+request.form['machine']
-        print(target)
         data = {k: v for k, v in request.form.to_dict().items()}
-        rs = rs_ask([target], data)[0]
-        print(rs)
+        print(data)
+        rs = rs_post([target], data)[0]
         if rs.status_code==200:
             api['status'] = rs.status_code
             api['info'] = rs.json()['info']
