@@ -6,6 +6,10 @@ from app.api import bp
 import json
 import requests
 
+
+def rs_ask(urls,ids):
+    rs = (grequests.get(u) for u in urls, timeout=3)
+    return dict(zip(ids,map(labmda x:x.status_code,grequests.map(rs))))
 @bp.route('/', methods=['GET', 'POST'])
 def index():
     ngroks = Ngrok.query.all()
@@ -17,9 +21,9 @@ def index():
             i['info'] = 'unkown'
         if 'control' not in i.keys():
             i['control'] = 'button'
-        r= requests.get(i['pub'])
-        if r.ok:
-            i['status']=1
+    cathe = rs_ask([i['pub'] for i in api_list], [i['id'] for i in api_list])
+    for api in api_list:
+        api['status'] == cathe[api['id']]
     if request.method == 'POST':
         return jsonify(api_list[int(request.form['id'])+1])
     return render_template('api/index.html', title=_('Api'),Api='active',api_list=api_list)

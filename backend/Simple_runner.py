@@ -46,9 +46,9 @@ if(origin_requset.status_code != r.codes.bad_gateway):
     print("----------Ngrok Location:---------")
     print("   loc:{}     pub:{}  ".format(loc,pub))
     print("-----------------------------")
-    data = {"loc": loc, "pub": pub,"time": time}
+    data = {"pub": pub, "loc": loc, "time": time}
     logging.info(time,data)
-    remote_requset = r.post(remote,data=data,headers=headers)
+    remote_requset = r.post(remote,data=json.dumps(data),headers=headers)
     if(remote_requset.status_code == r.codes.ok):
         http_server = WSGIServer(('', 5001), app)
         print("----------Server Start---------")
@@ -59,20 +59,4 @@ if(origin_requset.status_code != r.codes.bad_gateway):
 else:
     logging.error(origin_requset.raise_for_status())
 
-[program:server]
-environment = PYTHONHOME = '/usr/bin/python', PYTHONPATH = '/usr/bin/'
-directory = /home/pi/backend
-command = python Simple_runner.py
-autostart = true
-autorestart = true
 
-startsecs = 5
-startretries = 3
-user = ubuntu
-redirect_stderr = true
-stdout_logfile_maxbytes = 20MB
-stdout_logfile_backups = 2
-
-stdout_logfile = /data/logs/stdout.log
-stderr_logfile = /data/logs/stderro.log
-stopsignal = INT
