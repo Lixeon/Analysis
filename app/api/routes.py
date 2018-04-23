@@ -10,8 +10,8 @@ import grequests
 
 
 def rs_ask(urls,ids):
-    rs = (grequests.get(u) for u in urls, timeout=3)
-    return dict(zip(ids,map(labmda x:x.status_code,grequests.map(rs))))
+    rs = (grequests.get(u, timeout=3) for u in urls)
+    return dict(zip(ids,map(lambda x:x.status_code,grequests.map(rs))))
 @bp.route('/', methods=['GET', 'POST'])
 def index():
     ngroks = Ngrok.query.all()
