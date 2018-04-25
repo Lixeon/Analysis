@@ -1,6 +1,7 @@
 
 import os
 import json
+import time
 import socket
 import logging
 import subprocess
@@ -42,11 +43,12 @@ def Ngrok_start():
         logging.error("error: popen")
         exit(-1) # if the subprocess call failed, there's not much point in continuing
 
-    #res.wait() # wait for process to finish; this also sets the returncode variable inside 'res'
+    # res.wait() # wait for process to finish; this also sets the returncode variable inside 'res'
     if res.returncode != 0:
         logging.warn("exit processer\n")
     else:
         logging.info("wait processer:({},{})".format(res.pid, res.returncode))
+    print('finished')
 def get_loc():
     return (([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")] or 
             [[(s.connect(("8.8.8.8", 53)), s.getsockname()[0], s.close()) for s in [socket.socket(socket.AF_INET, socket.SOCK_DGRAM)]][0][1]]) + ["no IP found"])[0]
@@ -57,7 +59,18 @@ print("-------------------------------------------------------------------------
 
 Ngrok_start()
 origin_requset = rs_get()[0]
-if(origin_requset.status_code != 502):
+while(not origin_requset or origin_requset.status_code == 502):
+    origin_requset = rs_get()[0]
+    
+else:
+    time.sleep(2)
+    origin_requset = rs_get()[0]
+    print(origin_requset)
+    if(not origin_requset.json()):
+        print(2333)
+    else:
+        print(origin_requset.json())
+        print(origin_requset.json().keys())
     loc = get_loc()
     pub = str(origin_requset.json()['tunnels'][0]['public_url'])
     print("----------Ngrok Location:---------")
@@ -73,7 +86,13 @@ if(origin_requset.status_code != 502):
         print("--------------------------------------------------------------------------------Close-----------------------------------------------------------------------------------------------------------------------------------------------------")
     else:
         logging.error(remote_requset.raise_for_status())
-else:
-    logging.error(origin_requset.raise_for_status())
 
+logging.error(origin_requset.raise_for_status())
+
+
+['', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-arm-linux-gnueabihf', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old',
+    '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages', '/usr/lib/pymodules/python2.7']
+
+['', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-arm-linux-gnueabihf', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload',
+    '/home/pi/.local/lib/python2.7/site-packages', '/usr/local/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages', '/usr/lib/pymodules/python2.7']
 
