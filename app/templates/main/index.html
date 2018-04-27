@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block styles %}
 {{super()}}
-<link rel="stylesheet" type="text/css" href="{{ url_for( 'static',filename='css/data.css' )}}">
+<link rel="stylesheet" type="text/css" href="{{ url_for( 'static',filename='css/main.css' )}}">
 {% endblock %}
 {% block app_content %}
 <div id="myCarousel" class="carousel slide" data-ride="carousel">
@@ -56,19 +56,19 @@
 <div class="container marketing">
     <div class="row">
         <div class="col-lg-4">
-            <img src="{{ url_for('images.crop', filename='v0.jpg', width=400, height=300, quality=95) }}" />
+            <img class="img-responsive" src="{{ url_for('images.crop', filename='v0.jpg', width=400, height=300, quality=95) }}" />
             <h2>Overall Level</h2>
             <p>系统产生的响应大多数情况下都与特定的阶次（当然还有共振频率产生的响应）相关，在特定的阶次上会出现相应的响应。系统的每一个部件（齿轮、轴、活塞、泵、轮胎等）对系统的振动噪声总量级（Overall level）都有贡献。阶次分析帮助确定每一个独立部件对总量级有多大的贡献。</p>
             <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
         <div class="col-lg-4">
-            <img src="{{ url_for('images.crop', filename='v1.jpg', width=400, height=300, quality=95) }}" />
+            <img class="img-responsive" src="{{ url_for('images.crop', filename='v1.jpg', width=400, height=300, quality=95) }}" />
             <h2>阶次切片</h2>
             <p>阶次切片取自于一组FFT（瀑布图），每个切片对应不同的转速。RMS Level（有效值级）是FFT中每条谱线幅值平方和的平方根。</p>
             <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
         </div>
         <div class="col-lg-4">
-            <img src="{{ url_for('images.crop', filename='v2.jpg', width=400, height=300, quality=95) }}" />
+            <img class="img-responsive" src="{{ url_for('images.crop', filename='v2.jpg', width=400, height=300, quality=95) }}" />
             <h2>阶次分析</h2>
             <p>瀑布图分析经常用于评估旋转机械噪声和/或振动的表现。这个处理过程要对随转速变化的每个固定长度的子段数据块使用FFT变换计算频谱，转速的变化可能是升速也可能是降速。需要花时间去采集足够的数据以便得到一个时域数据块用于瞬时（单次）FFT计算（实际时域数据块是很短的），而在采集这个数据块的同时，机械设备的转速将从时域数据块采集开始时到结束一直在发生变化。</p>
             <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
