@@ -63,7 +63,7 @@ while(not origin_requset or origin_requset.status_code == 502):
     origin_requset = rs_get()[0]
     
 else:
-    time.sleep(2)
+    time.sleep(5)
     origin_requset = rs_get()[0]
     print(origin_requset)
     if(not origin_requset.json()):
