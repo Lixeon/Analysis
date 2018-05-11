@@ -38,7 +38,8 @@ def Ngrok_start():
     logging.info(time+' Ngrok Start')
     try:
         # stdout = subprocess.PIPE lets you redirect the output
-        res = subprocess.Popen(args, stdout=subprocess.PIPE)
+        res = subprocess.Popen(args, stdout=subprocess.PIPE,
+                               stderr=subprocess.STDOUT)
     except OSError:
         logging.error("error: popen")
         exit(-1) # if the subprocess call failed, there's not much point in continuing
@@ -95,4 +96,39 @@ logging.error(origin_requset.raise_for_status())
 
 ['', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-arm-linux-gnueabihf', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload',
     '/home/pi/.local/lib/python2.7/site-packages', '/usr/local/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages', '/usr/lib/pymodules/python2.7']
+
+import time
+import RPi.GPIO as GPIO
+
+GPIO.setwarnings(False)
+chan1 =14
+chan2 = 15
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(chan1, GPIO.OUT)
+GPIO.setup(chan2, GPIO.OUT)
+
+p = GPIO.PWM(chan1, 50) 
+q = GPIO.PWM(chan2, 50)
+
+def start():
+    p.start(50)
+    q.start(50)
+
+
+def ch(freq):
+    p.ChangeFrequency(freq)
+    q.ChangeFrequency(freq)
+def cd(dc):
+    p.ChangeDutyCycle(dc)
+    q.ChangeDutyCycle(dc)
+    
+
+
+
+def stop():
+    p.stop()
+    q.stop()
+def ex():
+    GPIO.cleanup()
 
