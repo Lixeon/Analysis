@@ -1,88 +1,117 @@
 {% extends 'base.html' %}
 {% block styles %}
 {{super()}}
-<link rel="stylesheet" type="text/css" href="{{ url_for( 'static',filename='css/main.css' )}}">
 {% endblock %}
 {% block app_content %}
-<div id="myCarousel" class="carousel slide" data-ride="carousel">
-    <ol class="carousel-indicators">
-        <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
-        <li data-target="#myCarousel" data-slide-to="1"></li>
-        <li data-target="#myCarousel" data-slide-to="2"></li>
-    </ol>
-    <div class="carousel-inner" role="listbox">
-        <div class="item active">
-            <img class="first-slide featurette-image img-responsive center-block" src="{{ url_for('images.crop', filename='S0.png', width=1920, height=720, quality=60) }}" />
-
+      <div id="myCarousel" class="carousel slide" data-ride="carousel">
+        <ol class="carousel-indicators">
+          <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+          <li data-target="#myCarousel" data-slide-to="1"></li>
+          <li data-target="#myCarousel" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img class="first-slide" src="{{ url_for('images.crop', filename='S0.png', width=1920, height=720, quality=10) }}" alt="First slide">
             <div class="container">
-                <div class="carousel-caption">
-                    <h1>FEV’S HOLISTIC APPROACH</h1>
-                    <p>ECONOMICAL, SMALL BUT NOISY?–THAT IS<code>NOT</code> MANDATORY</p>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn More</a></p>
-                </div>
+              <div class="carousel-caption text-left">
+                <h1>FEV’S HOLISTIC APPROACH</h1>
+                <p>ECONOMICAL, SMALL BUT NOISY?–THAT IS<code>NOT</code> MANDATORY</p>
+                <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+              </div>
             </div>
-        </div>
-        <div class="item">
-            <img class="second-slide featurette-image img-responsive center-block" src="{{ url_for('images.crop', filename='S1.png', width=1920, height=720, quality=60) }}">
+          </div>
+          <div class="carousel-item">
+            <img class="second-slide" src="{{ url_for('images.crop', filename='S1.png', width=1920, height=720, quality=10) }}" alt="Second slide">
             <div class="container">
-                <div class="carousel-caption">
-                    <h1>HAPPY CLIENTS AT MINIMAL COSTS</h1>
-                    <p>IN A RECENT STUDY, FEV CONSULTING DEMONSTRATES SUCCESSFUL APPROACHES TO EFFECTIVE COST AND VALUE ENGINEERING (C&VE)</p>
-                    <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
-                </div>
+              <div class="carousel-caption">
+                <h1>HAPPY CLIENTS AT MINIMAL COSTS</h1>
+                <p>IN A RECENT STUDY, FEV CONSULTING DEMONSTRATES SUCCESSFUL APPROACHES TO EFFECTIVE COST AND VALUE ENGINEERING (C&VE)</p>
+                <p><a class="btn btn-lg btn-primary" href="#" role="button">Learn more</a></p>
+              </div>
             </div>
-        </div>
-        <div class="item  ">
-            <img class="third-slide featurette-image img-responsive center-block" src="{{ url_for('images.crop', filename='S2.png', width=1920, height=720, quality=60) }}">
+          </div>
+          <div class="carousel-item">
+            <img class="third-slide" src="{{ url_for('images.crop', filename='S2.png', width=1920, height=720, quality=10) }}" alt="Third slide">
             <div class="container">
-                <div class="carousel-caption">
-                    <h1>COST-EFFECTIVE DEVELOPMENT</h1>
-                    <p>HOW FEV CONSULTING CAN HELP OEMS ACHIEVE PRODUCT MATURITY FASTER</p>
-                    <p><a class="btn btn-lg btn-primary" href="{{ url_for('contact.index')}}#" role="button">Contact Us</a></p>
-                </div>
+              <div class="carousel-caption text-right">
+                <h1>COST-EFFECTIVE DEVELOPMENT</h1>
+                <p>HOW FEV CONSULTING CAN HELP OEMS ACHIEVE PRODUCT MATURITY FASTER</p>
+                <p><a class="btn btn-lg btn-primary" href="{{ url_for('contact.index')}}#" role="button">Contact Us</a></p>
+              </div>
             </div>
+          </div>
         </div>
-    </div>
-    <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-        <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-    </a>
-    <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-        <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-    </a>
-</div>
+        <a class="carousel-control-prev" href="#myCarousel" role="button" data-slide="prev">
+          <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+          <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#myCarousel" role="button" data-slide="next">
+          <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          <span class="sr-only">Next</span>
+        </a>
+      </div>
 <hr class="featurette-divider">
 <div class="container marketing">
+    
     <div class="row">
-        <div class="col-lg-4">
-            <img class="img-responsive" src="{{ url_for('images.crop', filename='v0.jpg', width=400, height=300, quality=95) }}" />
-            <h2>Overall Level</h2>
-            <p>系统产生的响应大多数情况下都与特定的阶次（当然还有共振频率产生的响应）相关，在特定的阶次上会出现相应的响应。系统的每一个部件（齿轮、轴、活塞、泵、轮胎等）对系统的振动噪声总量级（Overall level）都有贡献。阶次分析帮助确定每一个独立部件对总量级有多大的贡献。</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+                <img class="card-img-top" src="{{ url_for('images.crop', filename='v0.jpg', width=360, quality=95) }}" alt="Image">
+                <div class="card-body">
+                    <h2 class="jumbotron-heading">Overall Level</h2>
+                    <p class="card-text">系统产生的响应大多数情况下都与特定的阶次（当然还有共振频率产生的响应）相关，在特定的阶次上会出现相应的响应。系统的每一个部件（齿轮、轴、活塞、泵、轮胎等）对系统的振动噪声总量级（Overall level）都有贡献。阶次分析帮助确定每一个独立部件对总量级有多大的贡献。</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                        </div>
+                        <small class="text-muted">1 st</small>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-4">
-            <img class="img-responsive" src="{{ url_for('images.crop', filename='v1.jpg', width=400, height=300, quality=95) }}" />
-            <h2>阶次切片</h2>
-            <p>阶次切片取自于一组FFT（瀑布图），每个切片对应不同的转速。RMS Level（有效值级）是FFT中每条谱线幅值平方和的平方根。</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+                <img class="card-img-top" src="{{ url_for('images.crop', filename='v1.jpg', width=360, quality=95) }}" alt="Image">
+                <div class="card-body">
+                    <h2 class="jumbotron-heading">阶次切片</h2>
+                    <p class="card-text">阶次切片取自于一组FFT（瀑布图），每个切片对应不同的转速。RMS Level（有效值级）是FFT中每条谱线幅值平方和的平方根。</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                        </div>
+                        <small class="text-muted">2 st</small>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-lg-4">
-            <img class="img-responsive" src="{{ url_for('images.crop', filename='v2.jpg', width=400, height=300, quality=95) }}" />
-            <h2>阶次分析</h2>
-            <p>瀑布图分析经常用于评估旋转机械噪声和/或振动的表现。这个处理过程要对随转速变化的每个固定长度的子段数据块使用FFT变换计算频谱，转速的变化可能是升速也可能是降速。需要花时间去采集足够的数据以便得到一个时域数据块用于瞬时（单次）FFT计算（实际时域数据块是很短的），而在采集这个数据块的同时，机械设备的转速将从时域数据块采集开始时到结束一直在发生变化。</p>
-            <p><a class="btn btn-default" href="#" role="button">View details &raquo;</a></p>
+        <div class="col-md-4">
+            <div class="card mb-4 box-shadow">
+                <img class="card-img-top" src="{{ url_for('images.crop', filename='v2.jpg', width=360, quality=95) }}" alt="Image">
+                <div class="card-body">
+                    <h2 class="jumbotron-heading">阶次追踪</h2>
+                    <p class="card-text">瀑布图分析经常用于评估旋转机械噪声和/或振动的表现。这个处理过程要对随转速变化的每个固定长度的子段数据块使用FFT变换计算频谱，转速的变化可能是升速也可能是降速。需要花时间去采集足够的数据以便得到一个时域数据块用于瞬时（单次）FFT计算（实际时域数据块是很短的），而在采集这个数据块的同时，机械设备的转速将从时域数据块采集开始时到结束一直在发生变化。</p>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
+                            <button type="button" class="btn btn-sm btn-outline-secondary">Edit</button>
+                        </div>
+                        <small class="text-muted">3 st</small>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     <hr class="featurette-divider">
     <div class="row featurette">
         <div class="col-md-7">
-            <h2 class="featurette-heading" id="qa_mean">
+            <h6 class="featurette-heading" id="qa_mean">
                 <a href="https://en.wikipedia.org/wiki/Noise,_vibration,_and_harshness#firstHeading" class="tooltip-hide" data-toggle="tooltip" data-placement="left" title="Read more in wiki">
                     NVH.
                 </a>
                 <span class="text-muted small">噪声，振动，声振粗糙度</span>
-            </h2>
+            </h6>
             <p class="lead">噪声和振动 (N&amp;V), 是车辆的噪音和振动特性，特别是在汽车和工业领域。虽然噪音和振动可以很容易地测量，但粗糙度是一个主观值，通过标准评价，或者分析工具，可以提供人的主观印象的衡量结果。后者则属于“现场 心理声学领域 ”。室内NVH处理与噪声和舱内的驾乘体验振动，而室外NVH主要是关注由车辆发出的噪音，包括驱动，噪音测试 ...</p>
         </div>
         <div class="col-md-5">
@@ -92,12 +121,12 @@
     <hr class="featurette-divider">
     <div class="row featurette">
         <div class="col-md-7 col-md-push-5">
-            <h2 class="featurette-heading" id="qa_use">
+            <h6 class="featurette-heading" id="qa_use">
                 <a href="https://en.wikipedia.org/wiki/Noise,_vibration,_and_harshness#Sources_of_NVH" class="tooltip-hide" data-toggle="tooltip" data-placement="left" title="Read more in wiki">
                     NVH的来源.
                 </a>
                 <span class="text-muted small">自身结构，声音辐射</span>
-            </h2>
+            </h6>
             <p class="lead">汽车中的NVH来源有很多，发动机，传动系统，制动器，出风口,以及轮胎接触路面都可以产生。从散热风扇，或空调，发电机，到其他发动机附件的产生也相当普遍。许多问题如任一振动或噪音产生，经由多条路径发出，然后通过声音辐射进入客舱。这些都被列为“结构传播”的噪声。另一些则由外部声源产生并通过空气传播。结构噪声可以通过隔离衰减，而空气中的噪声可以被吸收或阻挡。振动可在方向盘，座椅，扶手，及地板与踏板检测。一些则是可以在视觉上感受到的, 如后视镜或汽车天窗的振动...</p>
         </div>
         <div class="col-md-5 col-md-pull-7">
@@ -107,12 +136,12 @@
     <hr class="featurette-divider">
     <div class="row featurette">
         <div class="col-md-7">
-            <h2 class="featurette-heading" id="qa_analyzer">
+            <h6 class="featurette-heading" id="qa_analyzer">
                 <a href="https://en.wikipedia.org/wiki/Noise,_vibration,_and_harshness#Investigative_techniques" class="tooltip-hide" data-toggle="tooltip" data-placement="left" title="Read more in wiki">NVH振动分析仪. </a>
                 <span class="text-muted small">
                     实时，有效的解决方案
                 </span>
-            </h2>
+            </h6>
             <p class="lead">
                 NVH对汽车原型进行检测。这些在早期设计过程中所考虑到的解决方案往往需要大量修改设计。这些早期的原型是非常昂贵的，因此其常依赖于计算机辅助预测技术。所涉及到的技术有:部分替代，模态分析，铅包层，声强，传递路径分析，以及部分相干检测。大多数的NVH工作是在频域中进行，使用快速傅立叶变换到时域信号转换成频域。涉及小波分析，阶次分析，统计能量分析等技术。
                 <em>NVH振动分析仪</em>整合了这些技术手段,实时检测NVH信号进行辅助预测,极大方便了使用者做出主观评价并及时采取修正手段....
@@ -122,12 +151,11 @@
             <img class="featurette-image img-responsive center-block" src="{{  url_for('images.crop', filename='car2.jpg', width=400, height=300, quality=95)  }}" />
         </div>
     </div>
-    <hr class="featurette-divider">
 </div>
 
 {% endblock %}
 
 {% block scripts %}
 {{  super()  }}
-<script src="{{  url_for( 'static',filename='js/nvh.js' ) }}"></script>
+
 {% endblock %}

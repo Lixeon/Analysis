@@ -8,5 +8,11 @@ from ext import desc
 
 @bp.route('/data', methods=['GET', 'POST'])
 def  index():
-    ngrok=Ngrok.query.order_by(desc(Ngrok.time))[0]
-    return render_template('data/index.html', title=_('Data'),data='active',Target=ngrok.pub)
+    ngrok = Ngrok.query.order_by(desc(Ngrok.time)).first()
+    if(ngrok):
+        res = ngrok[0].id
+        target = ngrok[0].pub
+    else:
+        res=None
+        target=None
+    return render_template('data/index.html', title=_('Data'), data='active', res=res, target=target)

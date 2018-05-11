@@ -15,6 +15,9 @@
         </tbody>
     </table>
 </div>
+{% else %}
+    <h3>{{ _('No Machine Online') }}</h1>
+    <p><a class="btn btn-outline-secondary" role="button" href="{{ url_for('main.index') }}">{{ _('Back') }}</a></p>
 {% endif %}
 {% endblock %}
 
