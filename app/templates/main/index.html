@@ -12,7 +12,7 @@
         </ol>
         <div class="carousel-inner">
           <div class="carousel-item active">
-            <img class="first-slide" src="{{ url_for('images.crop', filename='S0.png', width=2700, height=1920, quality=60) }}" alt="First slide">
+            <img class="first-slide featurette-image img-fluid  mx-auto" src="{{ url_for('images.crop', filename='S0.png', width=1920, height=800, quality=5) }}" alt="First slide">
             <div class="container">
               <div class="carousel-caption text-left">
                 <h1>FEV’S HOLISTIC APPROACH</h1>
@@ -22,7 +22,7 @@
             </div>
           </div>
           <div class="carousel-item">
-            <img class="second-slide" src="{{ url_for('images.crop', filename='S1.png', width=2700, height=1920, quality=60) }}" alt="Second slide">
+            <img class="second-slide featurette-image img-fluid mx-auto" src="{{ url_for('images.crop', filename='S1.png', width=1920, height=800, quality=5) }}" alt="Second slide">
             <div class="container">
               <div class="carousel-caption">
                 <h1>HAPPY CLIENTS AT MINIMAL COSTS</h1>
@@ -32,7 +32,7 @@
             </div>
           </div>
           <div class="carousel-item">
-            <img class="third-slide" src="{{ url_for('images.crop', filename='S2.png', width=2700, height=1920, quality=60) }}" alt="Third slide">
+            <img class="third-slide featurette-image img-fluid  mx-auto" src="{{ url_for('images.crop', filename='S2.png', width=1920, height=800, quality=5) }}" alt="Third slide">
             <div class="container">
               <div class="carousel-caption text-right">
                 <h1>COST-EFFECTIVE DEVELOPMENT</h1>
@@ -57,7 +57,7 @@
     <div class="row">
         <div class="col-md-4">
             <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="{{ url_for('images.crop', filename='v0.jpg', width=360, quality=95) }}" alt="Image">
+                <img class="card-img-top img-fluid" src="{{ url_for('images.crop', filename='v0.jpg', width=360, quality=95) }}" alt="Image">
                 <div class="card-body">
                     <h2 class="jumbotron-heading">Overall Level</h2>
                     <p class="card-text">系统产生的响应大多数情况下都与特定的阶次（当然还有共振频率产生的响应）相关，在特定的阶次上会出现相应的响应。系统的每一个部件（齿轮、轴、活塞、泵、轮胎等）对系统的振动噪声总量级（Overall level）都有贡献。阶次分析帮助确定每一个独立部件对总量级有多大的贡献。</p>
@@ -73,7 +73,7 @@
         </div>
         <div class="col-md-4">
             <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="{{ url_for('images.crop', filename='v1.jpg', width=360, quality=95) }}" alt="Image">
+                <img class="card-img-top img-fluid" src="{{ url_for('images.crop', filename='v1.jpg', width=360, quality=95) }}" alt="Image">
                 <div class="card-body">
                     <h2 class="jumbotron-heading">阶次切片</h2>
                     <p class="card-text">阶次切片取自于一组FFT（瀑布图），每个切片对应不同的转速。RMS Level（有效值级）是FFT中每条谱线幅值平方和的平方根。</p>
@@ -89,7 +89,7 @@
         </div>
         <div class="col-md-4">
             <div class="card mb-4 box-shadow">
-                <img class="card-img-top" src="{{ url_for('images.crop', filename='v2.jpg', width=360, quality=95) }}" alt="Image">
+                <img class="card-img-top img-fluid" src="{{ url_for('images.crop', filename='v2.jpg', width=360, quality=95) }}" alt="Image">
                 <div class="card-body">
                     <h2 class="jumbotron-heading">阶次追踪</h2>
                     <p class="card-text">瀑布图分析经常用于评估旋转机械噪声和/或振动的表现。这个处理过程要对随转速变化的每个固定长度的子段数据块使用FFT变换计算频谱，转速的变化可能是升速也可能是降速。需要花时间去采集足够的数据以便得到一个时域数据块用于瞬时（单次）FFT计算（实际时域数据块是很短的），而在采集这个数据块的同时，机械设备的转速将从时域数据块采集开始时到结束一直在发生变化。</p>
@@ -116,7 +116,7 @@
             <p class="lead">噪声和振动 (N&amp;V), 是车辆的噪音和振动特性，特别是在汽车和工业领域。虽然噪音和振动可以很容易地测量，但粗糙度是一个主观值，通过标准评价，或者分析工具，可以提供人的主观印象的衡量结果。后者则属于“现场 心理声学领域 ”。室内NVH处理与噪声和舱内的驾乘体验振动，而室外NVH主要是关注由车辆发出的噪音，包括驱动，噪音测试 ...</p>
         </div>
         <div class="col-md-5">
-            <img class="featurette-image img-responsive center-block" src="{{  url_for('images.crop', filename='car0.jpg', width=400, height=300, quality=95)  }}" />
+            <img class="featurette-image img-fluid d-block mx-auto" src="{{  url_for('images.crop', filename='car0.jpg', width=400, height=300, quality=95)  }}" />
         </div>
     </div>
     <hr class="featurette-divider">
@@ -131,7 +131,7 @@
             <p class="lead">汽车中的NVH来源有很多，发动机，传动系统，制动器，出风口,以及轮胎接触路面都可以产生。从散热风扇，或空调，发电机，到其他发动机附件的产生也相当普遍。许多问题如任一振动或噪音产生，经由多条路径发出，然后通过声音辐射进入客舱。这些都被列为“结构传播”的噪声。另一些则由外部声源产生并通过空气传播。结构噪声可以通过隔离衰减，而空气中的噪声可以被吸收或阻挡。振动可在方向盘，座椅，扶手，及地板与踏板检测。一些则是可以在视觉上感受到的, 如后视镜或汽车天窗的振动...</p>
         </div>
         <div class="col-md-5 col-md-pull-7">
-            <img class="featurette-image img-responsive center-block" src="{{  url_for('images.crop', filename='car1.jpg', width=400, height=300, quality=95)  }}" />
+            <img class="featurette-image img-fluid d-block mx-auto" src="{{  url_for('images.crop', filename='car1.jpg', width=400, height=300, quality=95)  }}" />
         </div>
     </div>
     <hr class="featurette-divider">
@@ -149,7 +149,7 @@
             </p>
         </div>
         <div class="col-md-5">
-            <img class="featurette-image img-responsive center-block" src="{{  url_for('images.crop', filename='car2.jpg', width=400, height=300, quality=95)  }}" />
+            <img class="featurette-image img-fluid d-block mx-auto" src="{{  url_for('images.crop', filename='car2.jpg', width=400, height=300, quality=95)  }}" />
         </div>
     </div>
 </div>
