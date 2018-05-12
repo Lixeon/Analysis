@@ -8,11 +8,6 @@
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="{{ url_for( 'static',filename='css/bootstrap.min.css' )}}">
 <link rel="stylesheet" type="text/css" href="{{ url_for( 'static',filename='css/base.css' )}}">
-<style>
-    body>.container {
-        padding: 60px 15px 0;
-    }
-</style>
 {% endblock %}
 
 {% block title %}
@@ -74,7 +69,7 @@
 
 {%- block content %}
     {{super()}}
-    <main role="main">
+    
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %}
@@ -92,7 +87,7 @@
                 <p>&copy; 2017-2018 Monius, All rights reserved. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
             </footer>
         {%- endblock footer %}
-    </main>
+    
 {%- endblock content %}
 
 {% block scripts %}
