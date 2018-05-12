@@ -15,6 +15,7 @@ class Ngrok(db.Model):
     pub = db.Column(db.String(128), index=True, unique=True)
     loc = db.Column(db.String(128))
     time = db.Column(db.String(120), index=True, unique=True)
+    status = db.Column(db.String(10))
 
     def __repr__(self):
         return '<Server {}>'.format(self.pub)
@@ -41,7 +42,8 @@ class NgrokAPI(Resource):
         t = {
         'pub': None,
         'loc': None,
-        'time':None
+        'time':None,
+        'status':None
         }
         args = self.reqparse.parse_args()
         for k, v in args.items():

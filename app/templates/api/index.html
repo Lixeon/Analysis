@@ -2,23 +2,22 @@
 
 {% block styles %}
 {{super()}}
-<link rel="stylesheet" type="text/css" href="{{ url_for( 'static',filename='css/data.css' )}}">
+<link rel="stylesheet" type="text/css" href="{{ url_for( 'static',filename='css/api.css' )}}">
 {% endblock %}
 
 {% block app_content %}
-{% if api_list %}
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>{% if api_list[0]|length > 1 %}<tr>{% for key in api_list[0].keys() %}<th>{{ key }}</th>{% endfor %}</tr>{% endif %}</thead>
-        <tbody>{% for api in api_list %}<tr>{% for k,v in api.items() %}<td>{% if k=='status' %}<span id="st-{{ api.id }}" class="badge badge-{{ v }}">{{ v }}</span>{% elif k=='control' %}<button type="button"  id="bt-{{ api.id }}" class="bt-c btn btn-info btn-rounded">Run</button>
-        {% elif k=='info' %}<span id="if-{{ api.id }}" class="label label-default">{{ v }}</span>{% else %}{{ v }}{% endif %}</td>{% endfor %}</tr>{% endfor %}
-        </tbody>
-    </table>
-</div>
-{% else %}
-    <h3>{{ _('No Machine Online') }}</h1>
-    <p><a class="btn btn-outline-secondary" role="button" href="{{ url_for('main.index') }}">{{ _('Back') }}</a></p>
-{% endif %}
+    {% if api_list %}
+        <div class="container">
+            <div class="card-deck mb-3 text-center">
+                {% for m in api_list %}
+                    {% include 'api/_machine.html' %}
+                {% endfor %}
+            </div>
+        </div>
+    {% else %}
+        <h3>{{ _('No Machine Online') }}</h1>
+        <p><a class="btn btn-outline-secondary" role="button" href="{{ url_for('main.index') }}">{{ _('Back') }}</a></p>
+    {% endif %}
 {% endblock %}
 
 {% block scripts %}
@@ -26,12 +25,12 @@
 <script>
     function GetMachInfo(id) {
         
-        var $src = $('#bt-'+id);
-        var $st = $('#st-'+id);
-        var $if = $('#if-'+id);
+        var $src = $('#src-'+id);
+        var $info = $('#if-'+id);
 
-        var $p = $if.parent()
+        var $p = $info.parent()
         var $cp = $p.children()[0].outerHTML;
+
         $p.html('<img src="{{ url_for('static', filename='images/loading2.gif') }}">');
         $.post("{{ url_for('api.index') }}", {
             "id": id,
@@ -39,23 +38,29 @@
         }).done(function (response) {
             $p.children().remove();
             $p.append($cp);
-            var $if = $('#if-' + id);
-            $st.text(response['status']);
-            $if.text(response['info']);
-            
-            
+            var $info = $('#if-' + id);
+            $info.text(response['info']);
+            if(response['status']==200){
+                $src.removeClass('btn-outline-primary').addClass('btn-outline-danger');
+                $src.text('Stop');
+            }
+            else{
+                $src.removeClass('btn-outline-danger').addClass('btn-outline-primary');
+                $src.text('Run');   
+                } 
         }).fail(function () {
             $p.children().remove();
             $p.append($cp);
-            var $if = $('#if-' + id);
-            $st.text('Close');
-            $if.text('Error');
+            var $info = $('#if-' + id);
+
+            $info.text('Error');
         });
     }
     $(function () {
         $('.bt-c').click(
             function(){
                 var $id = $(this).attr('id').split('-')[1];
+                console.log($id);
                 GetMachInfo($id);
             }
         )
