@@ -8,6 +8,11 @@
 {% block styles %}
 <link rel="stylesheet" type="text/css" href="{{ url_for( 'static',filename='css/bootstrap.min.css' )}}">
 <link rel="stylesheet" type="text/css" href="{{ url_for( 'static',filename='css/base.css' )}}">
+<style>
+    body>.container {
+        padding: 60px 15px 0;
+    }
+</style>
 {% endblock %}
 
 {% block title %}

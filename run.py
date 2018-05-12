@@ -8,4 +8,4 @@ app = create_app()
 def make_shell_context():
     return {'db': db, 'Ngrok': Ngrok}
 if __name__ == '__main__':
-    app.run(debug=True) 
+    app.run(debug=True)
