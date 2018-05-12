@@ -34,42 +34,53 @@
 
 
 {% block navbar %}
-<nav class="navbar navbar-expand-sm navbar-dark fixed-top bg-dark">
-    <a class="navbar-brand" href="{{ url_for('main.index')}}">NVH Analyzer</a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
-        aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-    </button>
-    <div class="collapse navbar-collapse" id="navbarCollapse">
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item {{ main }}"><a class="nav-link" href="{{ url_for('main.index')}}">Home</a></li>
-            <li class="nav-item {{ dashboard }}"><a class="nav-link" href="{{ url_for('dashboard.index')}}">Dashboard</a></li>
-            <li class="nav-item {{ data }}"><a class="nav-link" href="{{ url_for('data.index')}}">Data</a></li>
-            <li class="nav-item {{ api }}"><a class="nav-link" href="{{ url_for('api.index')}}">Api</a></li>
-            <li class="nav-item {{ contact }}"><a class="nav-link" href="{{ url_for('contact.index')}}">Contact</a></li>
-            <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">Wiki</a>
-                <div class="dropdown-menu" aria-labelledby="dropdown01">
-                    <a class="dropdown-item" href="{{ url_for('main.index')}}#qa_mean">What is NVH</a>
-                    <a class="dropdown-item" href="{{ url_for('main.index')}}#qa_use">Who make it</a>
-                    <a class="dropdown-item" href="{{ url_for('main.index')}}#qa_analyzer">How to measure it</a>
-                    <a class="dropdown-item" href="{{ url_for('contact.index')}}#">How to get it</a>
-                    <a class="dropdown-item" href="#">Donate us</a>
-                </div>
-            </li>
-        </ul>
-        <form class="form-inline mt-2 mt-md-0">
-            <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
-    </div>
-</nav>
+    <nav class="navbar navbar-expand-md navbar-dark fixed-top bg-dark">
+        <a class="navbar-brand" href="{{ url_for('main.index')}}">NVH Analyzer</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse"
+            aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item {{ main }}">
+                    <a class="nav-link" href="{{ url_for('main.index')}}">Home</a>
+                </li>
+                <li class="nav-item {{ dashboard }}">
+                    <a class="nav-link" href="{{ url_for('dashboard.index')}}">Dashboard</a>
+                </li>
+                <li class="nav-item {{ data }}">
+                    <a class="nav-link" href="{{ url_for('data.index')}}">Data</a>
+                </li>
+                <li class="nav-item {{ api }}">
+                    <a class="nav-link" href="{{ url_for('api.index')}}">Api</a>
+                </li>
+                <li class="nav-item {{ contact }}">
+                    <a class="nav-link" href="{{ url_for('contact.index')}}">Contact</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="http://example.com" id="dropdown01" data-toggle="dropdown" aria-haspopup="true"
+                        aria-expanded="false">Wiki</a>
+                    <div class="dropdown-menu" aria-labelledby="dropdown01">
+                        <a class="dropdown-item" href="{{ url_for('main.index')}}#qa_mean">What is NVH</a>
+                        <a class="dropdown-item" href="{{ url_for('main.index')}}#qa_use">Who make it</a>
+                        <a class="dropdown-item" href="{{ url_for('main.index')}}#qa_analyzer">How to measure it</a>
+                        <a class="dropdown-item" href="{{ url_for('contact.index')}}#">How to get it</a>
+                        <a class="dropdown-item" href="#">Donate us</a>
+                    </div>
+                </li>
+            </ul>
+            <form class="form-inline mt-2 mt-md-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+            </form>
+        </div>
+    </nav>
+
 {% endblock %}
 
 {%- block content %}
     {{super()}}
-    
+    <main role="main">
         {% with messages = get_flashed_messages() %}
             {% if messages %}
                 {% for message in messages %}
@@ -87,12 +98,12 @@
                 <p>&copy; 2017-2018 Monius, All rights reserved. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
             </footer>
         {%- endblock footer %}
-    
+    </main>
 {%- endblock content %}
 
 {% block scripts %}
 <script src="{{ url_for( 'static',filename='js/jquery-3.3.1.min.js' )}}"></script>
-<script src="{{ url_for( 'static',filename='js/popper.min.js' )}}"></script>
 <script src="{{ url_for( 'static',filename='js/bootstrap.min.js' )}}"></script>
+<script src="{{ url_for( 'static',filename='js/popper.min.js' )}}"></script>
 <script src="{{ url_for( 'static',filename='js/holder.min.js' )}}"></script>
 {% endblock %}
