@@ -74,3 +74,61 @@ if __name__ == '__main__':
     except ValueError:
         PORT = 5000
     app.run(HOST, PORT)
+
+import time
+import RPi.GPIO as GPIO
+
+chan1 = 13
+chan2 = 26
+
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(chan1, GPIO.OUT)
+GPIO.setup(chan2, GPIO.OUT)
+
+p = GPIO.PWM(chan1, 50)
+q = GPIO.PWM(chan2, 50)
+
+
+def start():
+    p.start(50)
+    q.start(50)
+
+
+def ch(freq):
+    p.ChangeFrequency(freq)
+    q.ChangeFrequency(freq)
+
+
+def cd(dc):
+    p.ChangeDutyCycle(dc)
+    q.ChangeDutyCycle(dc)
+
+def stop():
+    q.stop()
+    p.stop()
+
+
+import smbus
+import time
+bus = smbus.SMBus(1)
+address = 0x04
+
+
+def writeNumber(value):
+    bus.write_byte(address, value)
+    return -1
+
+
+def readNumber():
+    number = bus.read_byte(address)
+    return number
+
+
+var = input("Enter1–9:")
+writeNumber(var)
+print("RPI: Hi Arduino, I sent you ", var)
+# sleep one second
+time.sleep(1)
+number = readNumber()
+print("Arduino: Hey RPI,I received a digit", number)
+print("======================================\n")

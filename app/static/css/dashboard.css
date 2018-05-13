@@ -1,5 +1,11 @@
 
 
+canvas {
+			-moz-user-select: none;
+			-webkit-user-select: none;
+			-ms-user-select: none;
+    }
+    
 .feather {
   width: 16px;
   height: 16px;
