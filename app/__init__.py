@@ -1,7 +1,7 @@
 import os
 from flask import Flask, request, current_app
 from flask_restful import Api
-from ext import db,migrate,bootstrap,babel,Config,images
+from ext import db,migrate,bootstrap,babel,Config,images,cache
 from app.models import NgrokAPI
 
 def create_app(config_class=Config):
@@ -15,7 +15,8 @@ def create_app(config_class=Config):
     bootstrap.init_app(app)
     babel.init_app(app)
     images.init_app(app)
-
+    cache.init_app(app, config={'CACHE_TYPE': 'simple'})
+    
     from app.errors import bp as errors_bp
     app.register_blueprint(errors_bp)
 
@@ -34,7 +35,7 @@ def create_app(config_class=Config):
     app.register_blueprint(main_bp)
 
     from app.data import bp as data_bp
-    app.register_blueprint(data_bp)
+    app.register_blueprint(data_bp, url_prefix='/data')
 
     from app.dashboard import bp as dashboard_bp
     app.register_blueprint(dashboard_bp)
