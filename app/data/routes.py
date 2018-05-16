@@ -7,7 +7,7 @@ from ext import desc,cache
 from functools import reduce
 import numpy as np
 
-@cache.cached(timeout=5090)
+@cache.cached(timeout=50)
 @bp.route('/', methods=['GET', 'POST'])
 def  index():
     data_set=dict()
@@ -41,7 +41,8 @@ def  index():
     if request.method == 'GET':
         return render_template('data/index.html', title=_('Data'), data='active', data_set=data_set)
     
-@cache.cached(timeout=5090)
+
+@cache.cached(timeout=50)
 @bp.route('/fft', methods=['GET', 'POST'])
 def fft():
 
@@ -73,7 +74,8 @@ def report():
             }
         )
 
-@cache.cached(timeout=5090)
+
+@cache.cached(timeout=50)
 @bp.route('/save', methods=['GET', 'POST'])
 def save():
     if request.method == 'POST':
