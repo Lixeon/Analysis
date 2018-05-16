@@ -1,11 +1,15 @@
-from flask import render_template, jsonify, request,json
-from flask_login import  login_user, logout_user, current_user
-from flask_babel import  _, lazy_gettext as _l
-from app.models import Ngrok
-from app.data import bp
-from ext import desc,cache
 from functools import reduce
+
 import numpy as np
+from flask import json, jsonify, render_template, request
+from flask_babel import lazy_gettext as _l
+from flask_babel import _
+from flask_login import current_user, login_user, logout_user
+
+from app.data import bp
+from app.models import Ngrok
+from ext import cache, desc
+
 
 @cache.cached(timeout=50)
 @bp.route('/', methods=['GET', 'POST'])

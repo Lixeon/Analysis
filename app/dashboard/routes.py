@@ -1,10 +1,13 @@
-from flask import render_template, redirect, url_for, flash, request,jsonify
-from flask_login import  login_user, logout_user, current_user
-from flask_babel import  _, lazy_gettext as _l
-from app.dashboard import bp
+from flask import flash, jsonify, redirect, render_template, request, url_for
+from flask_babel import lazy_gettext as _l
+from flask_babel import _
+from flask_login import current_user, login_user, logout_user
 
-import numpy as np
-from functools import reduce
+from app.dashboard import bp
+from ext import cache
+
+
+@cache.cached(timeout=50)
 @bp.route('/dashboard', methods=['GET', 'POST'])
 def  index():
 

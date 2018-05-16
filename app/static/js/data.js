@@ -72,16 +72,3 @@ var dash_init = function () {
         }
         );
 };
-var data_init = function () {
-    $.post("{{ url_for('data.index') }}", {
-
-    }).done(function (response) {
-        x = response['x'];
-        y = response['y'];
-
-        chart_data['labels'] = x;
-        dash_init();
-    }).fail(function () {
-
-    });
-}
