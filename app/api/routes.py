@@ -15,7 +15,7 @@ def union(x,y):
     return list(x.union(y))
 
 def rs_get(urls,ids):
-    rs = (grequests.get(u, timeout=1) for u in urls)
+    rs = (grequests.get(u, timeout=2.6) for u in urls)
     print(urls,ids)
     temp = grequests.map(rs)
     print(temp)
