@@ -36,12 +36,6 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link cl cl-res" href="#">
-                            <span data-feather="file"></span>
-                            Restoration
-                        </a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link cl cl-ord" href="#">
                             <span data-feather="file"></span>
                             Orders
@@ -59,13 +53,13 @@
 
                 <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
                     <span>Saved reports</span>
-                    <a class="d-flex align-items-center text-muted cl-save" href="#">
+                    <a class="d-flex align-items-center text-muted" href="#">
                         <span data-feather="plus-circle"></span>
                     </a>
                 </h6>
                 <ul class="nav flex-column mb-2">
                     <li class="nav-item">
-                        <a class="nav-link cl cl-month" href="#">
+                        <a class="nav-link cl cl-month cl-save" href="#">
                             <span data-feather="file-text"></span>
                             Current month
                         </a>
@@ -81,18 +75,19 @@
                 <div class="btn-toolbar mb-2 mb-md-0">
                     <div class="btn-group mr-2">
                         <button class="btn btn-sm btn-outline-secondary cl-fft">FFT</button>
-                        <button class="btn btn-sm btn-outline-secondary cl-res">Export</button>
+                        <button class="btn btn-sm btn-outline-secondary cl-save">Export</button>
                     </div>
                     <button class="btn btn-sm btn-outline-secondary dropdown-toggle">
                         <span data-feather="calendar"></span>
-                        This week
+                        This month
                     </button>
                 </div>
             </div>
 
             <div class="chart-container">
-                <canvas id="canvas_data"></canvas>
                 <progress id="progress_data" max="1" value="0" style="width: 100%"></progress>
+                <canvas id="canvas_data"></canvas>
+                
             </div>
 
              {% block footer %}{{super()}} {% endblock %}
@@ -110,17 +105,25 @@
 <script src="{{ url_for( 'static',filename='js/Chart.min.js' )}}"></script>
 <script src="{{ url_for( 'static',filename='js/feather.min.js' )}}"></script>
 <script src="{{ url_for( 'static',filename='js/data.js' )}}"></script>
-
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.min.js"></script>
+<script src="http://kendo.cdn.telerik.com/2017.2.621/js/kendo.all.min.js"></script>
 <script>
     feather.replace()
 </script>
+<script type="x/kendo-template" id="page-template">
+        <div class="page-template">
+
+        </div>
+</script>
 <script>
+    
     var data_init = function () {
             $.post("{{ url_for('data.index') }}", {
 
             }).done(function (response) {
                 x = response['x'];
-                y = response['y'];
+                y1 = response['y1'];
+                y2 = response['y2'];
 
                 chart_data['labels'] = x;
                 dash_init();
@@ -142,67 +145,49 @@
 
                 set_act($(this));
                 var postx = JSON.stringify(x);
-                var posty = JSON.stringify(y);
+                var posty = JSON.stringify([y1,y2]);
                 $.post("{{ url_for('data.fft') }}", {
-                    "y": posty,
                     "x": postx,
+                    "y": posty,
                 }, dataType='json').done(function (response) {
                     var x_t = response['x'];
                     var y_t = response['y'];
-                    var data = {
-                            label: 'FFT result',
-                            fill: true,
-                            borderColor: chartColors[5],
-                            backgroundColor: chartColors[5],
-                            data: y_t
-                        };
-                    chart_data['datasets'] = [data];
-                    if (options.hasOwnProperty('animation'))
-                        options['animation'] = animation;
-                    if (!progress.value)
-                        Chart.Line('canvas_data', {
-                            options: options,
-                            data: chart_data
-                        }
-                    );
-                }).fail(function () {
 
-                });
-            }
-        );
-        $('.cl-res').click(
-            function () {
-                set_act($(this));
-                var postx = JSON.stringify(x);
-                var posty = JSON.stringify(y);
-                $.post("{{ url_for('data.index') }}", {
-                    "y": posty,
-                    "x": postx,
-                }, dataType = 'json').done(function (response) {
-                    
-                    var ys = response['ys'];
-                    console.log(ys);
-                    var dsets=[];
-                    
-                    for(var i=0;i<ys.length;i++){
-                        var data = {                             
-                            label: 'Signal'+'-'+i,
-                            borderColor: chartColors[i],
-                            backgroundColor: chartColors[i],
-                            fill: false,
-                            data: ys[i]
-                        };
-                        dsets.push(data);
-                    }
-                    chart_data['datasets'] = dsets;
-                    if (options.hasOwnProperty('animation'))
-                        options['animation'] = animation;
-                    if (!progress.value)
+                    var data1 = {
+                        label: 'Speed Signal FFT Result',
+                        fill: true,
+                        borderColor: chartColors[0],
+                        backgroundColor: chartColors[0],
+                        data: y_t[0],
+                        yAxisID: 'speed-axis',
+                    };
+                    var data2 = {
+                        label: 'Vibration Signal FFT Result',
+                        fill: true,
+                        borderColor: chartColors[1],
+                        backgroundColor: chartColors[1],
+                        data: y_t[1],
+                        yAxisID: 'vibration-axis',
+                    };
+                    if (trigger_b) {
+                        chart_data['datasets'] = [data1, data2];
                         Chart.Line('canvas_data', {
                             options: options,
                             data: chart_data
                         }
-                    );
+                        );
+                    };
+                    if(trigger_b){
+                        chart_data['datasets'] = [data1,data2];
+                        if (!options.hasOwnProperty('animation'))
+                            options['animation'] = animation;
+                            Chart.Line('canvas_data', {
+                                options: options,
+                                data: chart_data
+                            }
+                            );
+                    }
+                    
                 }).fail(function () {
 
                 });
@@ -221,8 +206,23 @@
         );
         $('.cl-save').click(
             function () {
+                var dt = new Date();  
                 set_act($(this));
 
+                kendo.drawing
+                    .drawDOM("#canvas_data",
+                        {
+                            forcePageBreak: ".page-break",
+                            paperSize: "A3",
+                            margin: { left: "4cm",top: "2cm" },
+                            scale: 0.55,
+                            height: 955,
+                            template: $("#page-template").html(),
+                            keepTogether: ".prevent-split"
+                        })
+                    .then(function (group) {
+                        kendo.drawing.pdf.saveAs(group, "NVH Analysis Report " + dt.toDateString() + ".pdf")
+                    });
             }
         );
         $('.cl-month').click(

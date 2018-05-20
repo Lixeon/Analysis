@@ -11,51 +11,66 @@ from app.models import Ngrok
 from ext import cache, desc
 
 
+def gen_vibration(t, sampling_rate, fft_size):
+    x = np.sin(2*np.pi*156.25*t) + 2*np.sin(2*np.pi*234.375*t)
+    xs = x[:fft_size]
+    # xf = np.fft.rfft(xs)/fft_size
+    # freqs = np.linspace(0, sampling_rate/2, fft_size/2+1)
+    # xfp = 20*np.log10(np.clip(np.abs(xf), 1e-20, 1e100))
+    # xfp2 = np.clip(np.abs(xf), 1e-20, 1e100)
+    return xs      
+
+
+def gen_speed(t, sampling_rate, fft_size):
+    A = [round(np.random.random_sample()*1000, 2) for i in range(3)]
+    W = [round(np.random.random_sample()*300, 2) for i in range(3)]
+    ys = [i*np.sin(2*np.pi*j*t) for i, j in zip(A, W)]
+    x = reduce((lambda x, y: x + y), ys)
+    xs = x[:fft_size]
+    return xs                                            
+
 @cache.cached(timeout=50)
 @bp.route('/', methods=['GET', 'POST'])
 def  index():
-    data_set=dict()
-    x = np.linspace(0, 300, 300)
-
-    A = [round(np.random.random_sample()*1000, 2) for i in range(3)]
-    W = [round(np.random.random_sample()*300, 2) for i in range(3)] # yi=A*sin(2*pi*W*x)
-    # Ax= [np.random.random_sample()*100 for i in range(3) ]
-    ys = [i*np.sin(2*np.pi*j*x) for i, j in zip(A, W)]              # y=sum(yi)
-
-    y = reduce((lambda x, y: x + y), ys)
-    ys = list(map(lambda x: x.tolist(), ys))
-
-    print(type(y))
-    fy = abs(np.fft.fft(y))/len(x)
-
+    # data_set=dict()
+    sampling_rate = 8000
+    fft_size = 512
+    t = np.arange(0, 1.0, 1.0/sampling_rate)
+    tr = [round(i, 4) for i in t]
+    x = np.linspace(0, 300, 256)
     xr = [round(i, 2) for i in x]
-    mix_data = [round(i, 2) for i in y]
-    fft_data = [round(i, 2) for i in fy]
 
-    data_set['orig'] = [{'i': i, 'x': x, 'y': x}
-                        for i,(x, y) in enumerate(zip(xr, mix_data))]
-    data_set['ana'] = [{'i': i, 'x': x, 'y': x}
-                       for i, (x, y) in enumerate(zip(xr, fft_data))]
+    y1 = [round(i, 2) for i in gen_speed(t, sampling_rate, fft_size)]
+    y2 = [round(i, 2) for i in gen_vibration(t, sampling_rate, fft_size)]
+    # fft_data = [round(i, 2) for i in fy]
+
+    # data_set['orig'] = [{'i': i, 'x': x, 'y': x}
+    #                     for i,(x, y) in enumerate(zip(xr, mix_data))]
+    # data_set['ana'] = [{'i': i, 'x': x, 'y': x}
+    #                    for i, (x, y) in enumerate(zip(xr, fft_data))]
+
     if request.method == 'POST':
         return jsonify({
+            't':    tr,
             'x':    xr,
-            'y': mix_data,
-            'ys': ys
+            'y1':   y1,
+            'y2':   y2
         })
     if request.method == 'GET':
-        return render_template('data/index.html', title=_('Data'), data='active', data_set=data_set)
+        return render_template('data/index.html', title=_('Data'), data='active')
     
 
-@cache.cached(timeout=50)
+
 @bp.route('/fft', methods=['GET', 'POST'])
 def fft():
 
     if request.method == 'POST':
         x = json.loads(request.form['x'])
         y = np.asarray(json.loads(request.form['y']), dtype=float)
-        # print(type(y))
-        fy = abs(np.fft.fft(y))/len(x)
-        fft_data = [round(i, 2) for i in fy]
+        # print(y.shape)
+        fy = [20*np.log10(np.clip(np.abs(abs(np.fft.fft(i)) /
+                                         len(x)), 1e-20, 1e100)) for i in y]
+        fft_data = [[round(i, 2) for i in p] for p in fy]
         return jsonify(
             {
                 'x': x,
