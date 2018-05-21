@@ -31,6 +31,8 @@ def index():
     print('1,',ngroks)
     #object => dict
     api_list = list(map(lambda r: {c.name: str(getattr(r, c.name)) for c in r.__table__.columns},ngroks))
+    if(len(api_list)>5):
+        api_list = api_list[:5]
     for i in api_list:
         if 'info' not in i.keys():
             i['info'] = 'unkown'
