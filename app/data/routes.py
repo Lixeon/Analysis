@@ -32,7 +32,7 @@ def gen_speed(t, sampling_rate, fft_size):
 @cache.cached(timeout=50)
 @bp.route('/', methods=['GET', 'POST'])
 def  index():
-    # data_set=dict()
+    data_set=dict()
     sampling_rate = 8000
     fft_size = 512
     t = np.arange(0, 1.0, 1.0/sampling_rate)
@@ -57,7 +57,7 @@ def  index():
             'y2':   y2
         })
     if request.method == 'GET':
-        return render_template('data/index.html', title=_('Data'), data='active')
+        return render_template('data/index.html', title=_('Data'), data='active', data_set=data_set)
     
 
 
