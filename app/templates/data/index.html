@@ -13,8 +13,9 @@
                 <thead>
                     <tr>
                         <th>#</th>
-                        <th>X</th>
-                        <th>Y</th>
+                        <th>时间 / s</th>
+                        <th>转速 / RPM</th>
+                        <th>振动 / HZ</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -23,21 +24,7 @@
             </table>
         </div>
         <hr class="featurette-divider">
-        <h2>Analyzed Data</h2>
-        <div class="table-responsive">
-            <table class="table table-striped table-sm">
-                <thead>
-                    <tr>
-                        <th>#</th>
-                        <th>X</th>
-                        <th>FFT</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for m in data_set.ana %} {% include 'data/_loop.html' %} {% endfor %}
-                </tbody>
-            </table>
-        </div>
+
         {% block footer %}{{super()}} {% endblock %}
     {% else %}
         <h3>{{ _('No data here') }}</h1>

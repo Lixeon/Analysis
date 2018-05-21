@@ -44,15 +44,15 @@ def  index():
     y2 = [round(i, 2) for i in gen_vibration(t, sampling_rate, fft_size)]
     # fft_data = [round(i, 2) for i in fy]
 
-    # data_set['orig'] = [{'i': i, 'x': x, 'y': x}
-    #                     for i,(x, y) in enumerate(zip(xr, mix_data))]
+    data_set['orig'] = [{'i': i, 't': ts, 'y1': j1, 'y2': j2 }
+                        for i,(ts, j1,j2) in enumerate(zip(tr, y1,y2))]
     # data_set['ana'] = [{'i': i, 'x': x, 'y': x}
     #                    for i, (x, y) in enumerate(zip(xr, fft_data))]
 
     if request.method == 'POST':
         return jsonify({
-            't':    tr,
             'x':    xr,
+            't':    tr,
             'y1':   y1,
             'y2':   y2
         })
