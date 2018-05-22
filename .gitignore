@@ -11,6 +11,7 @@ dist
 build
 
 # My configurations:
+*.db
 db.ini
 deploy_key_rsa
 # Byte-compiled / optimized / DLL files
@@ -72,4 +73,4 @@ docs/_build/
 
 # PyBuilder
 target/
-*.db
+
