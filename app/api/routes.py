@@ -41,7 +41,7 @@ def index():
                                                         for i in api_list])
         # print('cache',cache)
         for i,api in enumerate(ngroks):
-            if(str(api_list[i]['id']) == str(api.id))
+            if(str(api_list[i]['id']) == str(api.id)):
                 api.status = cache[str(api.id)]
         db.session.commit()
     if request.method == 'POST':
