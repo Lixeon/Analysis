@@ -40,10 +40,10 @@ def index():
         cache = rs_get([i['pub'] for i in api_list], [i['id']
                                                         for i in api_list])
         # print('cache',cache)
-        for i,api in enumerate(ngroks):
-            if(str(api_list[i]['id']) == str(api.id)):
-                api.status = cache[str(api.id)]
+        for i in range(len(cache)):
+            ngroks[i].status = cache[str(ngroks[i].id)]
         db.session.commit()
+        
     if request.method == 'POST':
         api = list(filter(lambda i: i['id'] == request.form['id'], api_list))[0]
         target = api['pub']+'/'+request.form['machine']

@@ -12,7 +12,7 @@ from ext import cache, desc
 
 
 def gen_vibration(t, sampling_rate, fft_size):
-    x = np.sin(2*np.pi*156.25*t) + 2*np.sin(2*np.pi*234.375*t)
+    x = np.sin(2*np.pi*156.25*t)+1 + 2*np.sin(2*np.pi*234.375*t)+2
     xs = x[:fft_size]
     # xf = np.fft.rfft(xs)/fft_size
     # freqs = np.linspace(0, sampling_rate/2, fft_size/2+1)
@@ -24,7 +24,7 @@ def gen_vibration(t, sampling_rate, fft_size):
 def gen_speed(t, sampling_rate, fft_size):
     A = [round(np.random.random_sample()*1000, 2) for i in range(3)]
     W = [round(np.random.random_sample()*300, 2) for i in range(3)]
-    ys = [i*np.sin(2*np.pi*j*t) for i, j in zip(A, W)]
+    ys = [i*np.sin(2*np.pi*j*t)+i for i, j in zip(A, W)]
     x = reduce((lambda x, y: x + y), ys)
     xs = x[:fft_size]
     return xs                                            
