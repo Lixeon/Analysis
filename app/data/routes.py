@@ -33,7 +33,7 @@ def gen_speed(t, sampling_rate, fft_size):
 @bp.route('/', methods=['GET', 'POST'])
 def  index():
     data_set=dict()
-    sampling_rate = 8000
+    sampling_rate = 3000
     fft_size = 512
     t = np.arange(0, 40.0, 1.0/sampling_rate)
     tr = [round(i, 4) for i in t]

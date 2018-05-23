@@ -1,9 +1,7 @@
 var x = [];
-var t=[];
 var y1 = [];
 var y2 = [];
-var y1f = [];
-var y2f = [];
+
 var trigger_b  = true;
 var chart_data = {
     labels: x,

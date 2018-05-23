@@ -121,7 +121,6 @@
 
             }).done(function (response) {
                 x = response['x'];
-                t = response['t'];
                 y1 = response['y1'];
                 y2 = response['y2'];
 
@@ -157,8 +156,6 @@
                 }, dataType='json').done(function (response) {
                     var x_t = response['x'];
                     var y_t = response['y'];
-                        y1f = y_t[0];
-                        y2f = y_t[1];
                     var data1 = {
                         label: 'Speed Signal FFT Result',
                         fill: true,
@@ -213,7 +210,6 @@
                     x: y1f,
                     y: x,
                     z: y2f,
-                    
                     mode: 'lines',
                     marker: {
                         color: '#1f77b4',
