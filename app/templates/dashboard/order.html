@@ -1,0 +1,106 @@
+{% extends 'form.html' %} {% block styles %} {{super()}}
+<link rel="stylesheet" type="text/css" href="{{ url_for( 'static',filename='css/dashboard.css' )}}">
+
+<style>
+</style>
+
+{% endblock %} 
+{% block content %}
+    <div id="myDiv"></div>
+    {% block footer %}{{super()}} {% endblock %}
+{% endblock %} 
+{% block scripts %} 
+{{ super() }}
+<script src="{{ url_for( 'static',filename='js/plotly-latest.min.js' )}}"></script>
+
+<script>
+    var x=[];
+    var y1f = [];
+    var y2f = [];
+    var data_render = function () {
+        var d3 = Plotly.d3;
+        var gd3 = d3.select('#myDiv');
+        var gd = gd3.node();
+        var OrderTrack_01 = {
+            x: y1f,
+            y: x,
+            z: y2f,
+            mode: 'lines',
+            marker: {
+                color: '#1f77b4',
+                size: 11,
+                symbol: 'circle',
+                line: {
+                    color: 'rgb(0,0,0)',
+                    width: 1
+                }
+            },
+            line: {
+                color: '#1f77b4',
+                width: 1
+            },
+            type: 'scatter3d'
+        };
+        var layout = {
+            title: 'Order Tracking Result',
+            height: 400,
+            auto: true,
+            showlegend: true,
+            scene: {
+                aspectratio: {
+                    x: 1,
+                    y: 1,
+                    z: 1
+                },
+                camera: {
+                    center: {
+                        x: 0, y: 0, z: 0
+                    },
+                    eye: {
+                        x: 2, y: 0.4, z: 0.1
+                    },
+                    up: {
+                        x: 0, y: 0, z: 1
+                    }
+                },
+                xaxis: {
+                    title: 'Revolution[RPM]',
+                    showgrid: true,
+                },
+                yaxis: {
+                    title: 'Frequency[HZ]',
+                    showgrid: true,
+                    showline: true
+                }
+                ,
+                zaxis: {
+                    title: 'Gear Noise[DB]',
+                    showgrid: false,
+                    showline: true
+                },
+            },
+            margin: {
+                l: 50,
+                r: -50,
+                b: 0,
+                t: 0,
+            }
+        };
+        Plotly.plot(gd, [OrderTrack_01], layout);
+        };
+    $(function () {
+
+        $.post("{{ url_for('data.index') }}", {
+
+        }).done(function (response) {
+            x = response['x'];
+            var y = response['fy'];
+            y1f = y[0];
+            y2f = y[1];
+            data_render();
+        }).fail(function () {
+
+        });
+    });
+
+</script> {% endblock %}

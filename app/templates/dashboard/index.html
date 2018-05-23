@@ -35,7 +35,7 @@
                         </a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link cl cl-ord" href="#">
+                        <a class="nav-link cl cl-ord" href="{{ url_for('dashboard.order') }}">
                             <span data-feather="file"></span>
                             Orders
                         </a>
@@ -196,7 +196,7 @@
                 });
             }
         );
-        $('.cl-ord').click(
+        $('.cl-ord1').click(
             function () {
                 set_act($(this));
                 $('#canvas_data').hide();
