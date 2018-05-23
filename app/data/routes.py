@@ -22,8 +22,8 @@ def gen_vibration(t, sampling_rate, fft_size):
 
 
 def gen_speed(t, sampling_rate, fft_size):
-    A = [round(np.random.random_sample()*1000, 2) for i in range(3)]
-    W = [round(np.random.random_sample()*300, 2) for i in range(3)]
+    A = [round(np.random.random_sample()*100, 2) for i in range(3)]
+    W = [round(np.random.random_sample()*1000, 2) for i in range(3)]
     ys = [i*np.sin(2*np.pi*j*t)+i for i, j in zip(A, W)]
     x = reduce((lambda x, y: x + y), ys)
     xs = x[:fft_size]
@@ -35,7 +35,7 @@ def  index():
     data_set=dict()
     sampling_rate = 8000
     fft_size = 512
-    t = np.arange(0, 1.0, 1.0/sampling_rate)
+    t = np.arange(0, 40.0, 1.0/sampling_rate)
     tr = [round(i, 4) for i in t]
     x = np.linspace(0, 300, 256)
     xr = [round(i, 2) for i in x]

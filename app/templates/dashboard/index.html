@@ -5,7 +5,6 @@
 <link rel="stylesheet" type="text/css" href="{{ url_for( 'static',filename='css/dashboard.css' )}}">
 
 <style>
-
 .chart-container {
   position: relative;
   margin: auto;
@@ -83,13 +82,16 @@
                     </button>
                 </div>
             </div>
-
+           
+            <div id="myDiv" ></div>
+            
             <div class="chart-container">
                 <progress id="progress_data" max="1" value="0" style="width: 100%"></progress>
                 <canvas id="canvas_data"></canvas>
                 
             </div>
-
+            
+            
              {% block footer %}{{super()}} {% endblock %}
         </main>
     </div>
@@ -119,6 +121,7 @@
 
             }).done(function (response) {
                 x = response['x'];
+                t = response['t'];
                 y1 = response['y1'];
                 y2 = response['y2'];
 
@@ -134,6 +137,9 @@
         $('.cl-ori').click(
             function () {
                 set_act($(this));
+                $('#myDiv').hide();
+                $('#canvas_data').show();
+                
                 dash_init();
             }
         );
@@ -141,6 +147,8 @@
             function () {
 
                 set_act($(this));
+                $('#myDiv').hide();
+                $('#canvas_data').show();
                 var postx = JSON.stringify(x);
                 var posty = JSON.stringify([y1,y2]);
                 $.post("{{ url_for('data.fft') }}", {
@@ -149,7 +157,8 @@
                 }, dataType='json').done(function (response) {
                     var x_t = response['x'];
                     var y_t = response['y'];
-
+                        y1f = y_t[0];
+                        y2f = y_t[1];
                     var data1 = {
                         label: 'Speed Signal FFT Result',
                         fill: true,
@@ -193,7 +202,82 @@
         $('.cl-ord').click(
             function () {
                 set_act($(this));
+                $('#canvas_data').hide();
+                $('#myDiv').show();
+                var d3 = Plotly.d3;
 
+
+                var gd3 = d3.select('#myDiv');
+                var gd = gd3.node();
+                var OrderTrack_01 = {
+                    x: y1f,
+                    y: x,
+                    z: y2f,
+                    
+                    mode: 'lines',
+                    marker: {
+                        color: '#1f77b4',
+                        size: 11,
+                        symbol: 'circle',
+                        line: {
+                            color: 'rgb(0,0,0)',
+                            width: 3
+                        }
+                    },
+                    line: {
+                        color: '#1f77b4',
+                        width: 3
+                    },
+                    type: 'scatter3d'
+                };
+                var layout = {
+                    title: 'Order Tracking Result',
+                    height:1080,
+                    auto:true,
+                    showlegend: true,
+                    scene: {
+                        aspectratio: {
+                            x: 1,
+                            y: 1,
+                            z: 1
+                        },
+                        camera: {
+                            center: {
+                                x: 0, y: 0, z: 0
+                            },
+                            eye: {
+                                x: 2, y: 0.4, z: 0.1
+                            },
+                            up: {
+                                x: 0, y: 0, z: 1
+                            }
+                        },
+                        xaxis: {
+                            title: 'Revolution[RPM]',
+                            showgrid: true,
+                        },
+                        yaxis: {
+                            title: 'Frequency[HZ]',
+                            showgrid: true,
+                            showline: true
+                        }
+                        ,
+                        zaxis: {
+                            title: 'Gear Noise[DB]',
+                            showgrid: false,
+                            showline: true
+                        },
+                    },
+                    margin: {
+                        l: 100,
+                        r: 50,
+                        b: 65,
+                        t: 90,
+                    }
+                };
+                Plotly.plot(gd, [OrderTrack_01], layout);
+
+                    
             }
         );
         $('.cl-report').click(
@@ -212,6 +296,6 @@
 </script>
 <script defer src="{{ url_for( 'static',filename='js/kendo.all.min.js' )}}"></script>
 <script defer src="{{ url_for( 'static',filename='js/plotly-latest.min.js' )}}"></script>
-<script src="{{ url_for( 'static',filename='js/export.js' )}}"></script>
+<script defer src="{{ url_for( 'static',filename='js/export.js' )}}"></script>
 {% endblock %}
 
