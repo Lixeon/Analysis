@@ -9,9 +9,10 @@ $(function () {
                     {
                         forcePageBreak: ".page-break",
                         paperSize: "A3",
-                        margin: { left: "4cm", top: "2cm" },
-                        scale: 0.55,
-                        height: 955,
+                        margin: { left: "3cm", top: "2cm" },
+                        scale: 0.35,
+                        width:1720,
+                        
                         template: $("#page-template").html(),
                         keepTogether: ".prevent-split"
                     })

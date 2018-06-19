@@ -1,6 +1,7 @@
 var x = [];
 var y1 = [];
 var y2 = [];
+
 var trigger_b  = true;
 var chart_data = {
     labels: x,

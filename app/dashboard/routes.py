@@ -10,5 +10,9 @@ from ext import cache
 @cache.cached(timeout=50)
 @bp.route('/dashboard', methods=['GET', 'POST'])
 def  index():
-
     return render_template('dashboard/index.html', title=_('dashboard'), dashboard='active')
+
+@cache.cached(timeout=50)
+@bp.route('/dashboard/order', methods=['GET', 'POST'])
+def order():
+    return render_template('dashboard/order.html', title=_('orderTracking'), dashboard='active')
