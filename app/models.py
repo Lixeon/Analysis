@@ -1,8 +1,11 @@
 
-from flask import abort,url_for
+from flask import abort,url_for,current_app
 from flask_restful import Resource, reqparse, fields, marshal
 from passlib.apps import custom_app_context as pwd_context
 from ext import db, desc
+
+import redis
+import rq
 
 ngrok_fields={
     "pub":fields.String,
@@ -16,6 +19,7 @@ class Ngrok(db.Model):
     loc = db.Column(db.String(128))
     time = db.Column(db.String(120), index=True, unique=True)
     status = db.Column(db.String(10))
+    complete = db.Column(db.Boolean, default=False)
 
     def __repr__(self):
         return '<Server {}>'.format(self.pub)
@@ -25,6 +29,17 @@ class Ngrok(db.Model):
         for column in row.__table__.columns:
             d[column.name] = str(getattr(row, column.name))
         return d
+
+    def get_rq_job(self):
+        try:
+            rq_job = rq.job.Job.fetch(self.id, connection=current_app.redis)
+        except (redis.exceptions.RedisError, rq.exceptions.NoSuchJobError):
+            return None
+        return rq_job
+
+    def get_progress(self):
+        job = self.get_rq_job()
+        return job.meta.get('progress', 0) if job is not None else 100
 
 class NgrokAPI(Resource):
     def __init__(self):

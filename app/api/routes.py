@@ -6,28 +6,37 @@ from ext import db,desc
 
 import json
 import requests
-import grequests
 import pprint
 
 def union(x,y):
     x=set(x)
     y=set(y)
     return list(x.union(y))
+def slave_check(servers):
+    rq_job = current_app.task_queue.enqueue('app.tasks.query_servers',servers,
+                                            *args, **kwargs)
 
-def rs_get(urls,ids):
-    rs = (grequests.get(u, timeout=2.6) for u in urls)
-    print(urls,ids)
-    temp = grequests.map(rs)
-    print(temp)
-    return dict(zip(ids,map(lambda x:x.status_code if x else 404,temp)))
 
-def rs_post(urls,data):
-    rs = (grequests.post(u, data=data,timeout=3) for u in urls)
-    return grequests.map(rs)
+# def get_tasks_in_progress():
+#     return Ngrok.query.filter_by(complete=False).all()
+
+# def get_task_in_progress(slave_id):
+#     return Ngrok.query.filter_by(id=slave_id,complete=False).first()
+    
+# def rs_get(urls,ids):
+#     rs = (grequests.get(u, timeout=2.6) for u in urls)
+#     print(urls,ids)
+#     temp = grequests.map(rs)
+#     print(temp)
+#     return dict(zip(ids,map(lambda x:x.status_code if x else 404,temp)))
+
+# def rs_post(urls,data):
+#     rs = (grequests.post(u, data=data,timeout=3) for u in urls)
+#     return grequests.map(rs)
 @bp.route('/', methods=['GET', 'POST'])
 def index():
-    # ngroks = Ngrok.query.all()
-    ngroks = union(Ngrok.query.filter_by(status='200'), Ngrok.query.order_by(desc(Ngrok.time)))
+    ngroks = Ngrok.query.all()
+    # ngroks = union(Ngrok.query.filter_by(status='200'), Ngrok.query.order_by(desc(Ngrok.time)))
     print('1,',ngroks)
     #object => dict
     api_list = list(map(lambda r: {c.name: str(getattr(r, c.name)) for c in r.__table__.columns},ngroks))

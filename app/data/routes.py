@@ -68,7 +68,7 @@ def  index():
         return render_template('data/index.html', title=_('Data'), data='active', data_set=data_set)
     
 
-
+@cache.cached(timeout=50)
 @bp.route('/fft', methods=['GET', 'POST'])
 def fft():
     # global ord_data
