@@ -1,0 +1,20 @@
+ctrl_interface=DIR=/var/run/wpa_supplicant GROUP=netdev
+update_config=1
+
+network={
+    ssid="xxD"
+    psk="01234567"
+    priority=5
+}
+
+network={
+    ssid="StuckIntoMe"
+    psk="12345678"
+    priority=4
+}
+
+network={
+    ssid="DD-WRT"
+    psk="vigilate"
+    priority=3
+}

@@ -3,13 +3,12 @@ import os
 import json
 import time
 import socket
-import logging
 import subprocess
 import grequests
 
 from Server_standalone import app
 from datetime import datetime
-from gevent.wsgi import WSGIServer
+from gevent.pywsgi import WSGIServer
 
 
 def rs_get(urls=None):
@@ -27,27 +26,27 @@ def rs_post(data,urls=None):
     if not urls:
         urls = [remote]
     rs = (grequests.post(u, data=json.dumps(data), headers=headers, timeout=5) for u in urls)
-    logging.info(data)
+    print(data)
     return grequests.map(rs)
 
 def Ngrok_start():
     time = str(datetime.now())[:19]
     # list of strings representing the command
     args = ['/home/pi/ngrok', 'http', '5001']
-    logging.basicConfig(filename='run.log', level=logging.INFO)
-    logging.info(time+' Ngrok Start')
+    # logging.basicConfig(filename='run.log', level=logging.INFO)
+    print(time+' Ngrok Start')
     try:
         # stdout = subprocess.PIPE lets you redirect the output
         res = subprocess.Popen(args, stdout=subprocess.PIPE)
     except OSError:
-        logging.error("error: popen")
+        print('error')
         exit(-1) # if the subprocess call failed, there's not much point in continuing
 
     # res.wait() # wait for process to finish; this also sets the returncode variable inside 'res'
     if res.returncode != 0:
-        logging.warn("exit processer\n")
+        print("exit processer\n")
     else:
-        logging.info("wait processer:({},{})".format(res.pid, res.returncode))
+        print("wait processer:({},{})".format(res.pid, res.returncode))
     print('finished')
 def get_loc():
     return (([ip for ip in socket.gethostbyname_ex(socket.gethostname())[2] if not ip.startswith("127.")] or 
@@ -81,18 +80,19 @@ else:
     remote_requset = rs_post(data)[0]
 
     if(remote_requset.status_code == 200):
-        http_server = WSGIServer(('', 5001), app)
+        http_server = WSGIServer(('', 5000), app)
         http_server.serve_forever()
         print("--------------------------------------------------------------------------------Close-----------------------------------------------------------------------------------------------------------------------------------------------------")
     else:
-        logging.error(remote_requset.raise_for_status())
+        print('error')
 
-logging.error(origin_requset.raise_for_status())
+print(origin_requset.raise_for_status())
 
 
-['', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-arm-linux-gnueabihf', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old',
-    '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages', '/usr/lib/pymodules/python2.7']
+# ['', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-arm-linux-gnueabihf', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old',
+#     '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages', '/usr/lib/pymodules/python2.7']
 
-['', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-arm-linux-gnueabihf', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload',
-    '/home/pi/.local/lib/python2.7/site-packages', '/usr/local/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages', '/usr/lib/pymodules/python2.7']
+# ['', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-arm-linux-gnueabihf', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload',
+#     '/home/pi/.local/lib/python2.7/site-packages', '/usr/local/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages', '/usr/lib/pymodules/python2.7']
+# /usr/lib/arm-linux-gnueabihf/libproxychains.so.3
 
